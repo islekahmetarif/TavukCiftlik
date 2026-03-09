@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="tr" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1">
+
+    <!-- Elite SEO Meta Tags -->
+    <title>Kümes Su Tüketimi Takibi ve Erken Hastalık Teşhisi | Esular</title>
+    <meta name="description"
+        content="Tavukların su tüketimini LoRaWAN sayaçlarla 7/24 izleyin. Su tüketimindeki değişimlerle hastalıkları 48 saat önceden tespit edin, ilaç dozajını takip edin.">
+    <meta name="keywords"
+        content="kümes su tüketimi takibi, tavuk su saati sensörü, kümes su saati, su kaçağı tespiti tavukçuluk, hastalık erken teşhisi su, ilaç dozaj takibi kümes">
+    <meta name="author" content="Esular">
+    <meta name="robots" content="index, follow">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png?v=3.0">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon.png?v=3.0">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon.png?v=3.0">
+    <link rel="shortcut icon" href="/favicon.png?v=3.0" type="image/png">
+    <meta name="theme-color" content="#f24726">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @font-face {
+            font-family: 'Poppins';
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: url('fonts/poppins-400.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'Poppins';
+            font-style: normal;
+            font-weight: 600;
+            font-display: swap;
+            src: url('fonts/poppins-600.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'Poppins';
+            font-style: normal;
+            font-weight: 700;
+            font-display: swap;
+            src: url('fonts/poppins-700.woff2') format('woff2');
+        }
+
+        :root {
+            --esular-orange: #f24726;
+            --esular-orange-dark: #d93d1f;
+            --esular-blue: #6ABDE6;
+            --white: #fff;
+            --gray-100: #f8f9fa;
+            --gray-600: #706e81;
+            --gray-800: #41404e;
+            --gray-900: #2b2a35;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --border-radius: 12px;
+            --border-radius-lg: 24px;
+            --font-primary: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--gray-800);
+            background: var(--white);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: var(--white);
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+            z-index: 1000;
+            padding: 12px 0;
+        }
+
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-logo img {
+            display: block;
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .header-nav a {
+            color: var(--gray-800);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9375rem;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .header-nav a:hover,
+        .header-nav a.active {
+            color: var(--esular-orange);
+        }
+
+        .header-nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--esular-orange);
+            border-radius: 2px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--esular-orange);
+            border: 2px solid var(--esular-orange);
+            padding: 10px 24px;
+            font-size: 0.9375rem;
+            border-radius: 100px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .btn-outline:hover {
+            background: var(--esular-orange);
+            color: white;
+        }
+
+        .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--gray-800);
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        @media (max-width: 991px) {
+            .header {
+                background: white !important;
+                z-index: 10000 !important;
+            }
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--esular-orange);
+            border: 2px solid var(--esular-orange);
+            padding: 10px 24px;
+            font-size: 0.9375rem;
+        }
+
+        .btn-outline:hover {
+            background: var(--esular-orange);
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(242, 71, 38, 0.3);
+        }
+
+        /* Footer Styles */
+        .footer {
+            background: var(--gray-900);
+            color: var(--white);
+            padding: 60px 0 24px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer a {
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer a:hover {
+            color: var(--esular-orange);
+        }
+
+        @media (max-width: 768px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+        }
+
+        .section {
+            padding: 120px 0;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-weight: 700;
+            line-height: 1.1;
+            color: var(--gray-900);
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 1.5rem;
+        }
+
+        h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: 1rem;
+        }
+
+        h3 {
+            font-size: clamp(1.5rem, 3vw, 2rem);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 36px;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 100px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--esular-orange) 0%, var(--esular-orange-dark) 100%);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(242, 71, 38, 0.3);
+        }
+
+        .btn-white {
+            background: var(--white);
+            color: var(--esular-orange);
+        }
+
+        .btn-white:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 255, 255, 0.3);
+        }
+
+        /* HERO STATS GRID */
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 30px;
+            margin-bottom: 48px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .stat-card {
+            padding: 24px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        /* MOBILE OPTIMIZATION ENHANCEMENTS */
+        @media (max-width: 991px) {
+            .header-container {
+                flex-direction: row;
+                justify-content: space-between;
+                padding: 10px 20px;
+            }
+
+            .header-nav {
+                display: none;
+            }
+
+            .hero {
+                padding-top: 140px !important;
+                padding-bottom: 80px;
+                text-align: center;
+                min-height: auto !important;
+            }
+
+            h1 {
+                font-size: 2.5rem !important;
+                line-height: 1.2;
+            }
+
+            .hero p {
+                font-size: 1.1rem !important;
+                margin-bottom: 32px !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            section {
+                padding: 60px 0 !important;
+            }
+
+            h2 {
+                font-size: 2rem !important;
+            }
+
+            .hero-stats {
+                grid-template-columns: 1fr !important;
+                gap: 20px !important;
+                max-width: 100%;
+            }
+
+            .btn {
+                width: 100%;
+                margin-bottom: 12px;
+                justify-content: center;
+                padding: 16px 20px !important;
+            }
+
+            .container {
+                padding: 0 24px;
+            }
+
+            /* Fix for any other grids */
+            div[style*="display: grid"] {
+                grid-template-columns: 1fr !important;
+                gap: 20px !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2rem !important;
+            }
+
+            .header-logo img {
+                width: 100px;
+                height: auto;
+            }
+
+            .header-actions .btn {
+                padding: 8px 16px !important;
+                font-size: 0.8rem !important;
+                width: auto !important;
+                margin-bottom: 0;
+            }
+        }
+    </style>
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="/css/style.css?v=7.1">
+    <link rel="stylesheet" href="/css/fontawesome.min.css?v=7.1" media="print" onload="this.media='all'">
+
+    <!-- Font Preloads -->
+    <link rel="preload" href="/fonts/poppins-400.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/poppins-600.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/poppins-700.woff2" as="font" type="font/woff2" crossorigin>
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://esular.com/tavuk-ciftligi-su-tuketimi-izleme" />
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Kümes Su Tüketimi İzleme - Erken Hastalık Uyarısı" />
+    <meta property="og:description"
+        content="Su tüketim verileriyle sürünüzün sağlığını koruyun. Kaçakları ve ilaçlama dozajını anlık takip edin." />
+    <meta property="og:url" content="https://esular.com/tavuk-ciftligi-su-tuketimi-izleme" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Tavuk Çiftliği İzleme Sistemi | Esular">
+    <meta name="twitter:description" content="Akıllı kümes sensörleri ile hastalık erken uyarı sistemi.">
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "name": "Akıllı Tavuk Çiftliği İzleme Sistemi",
+        "description": "LoRaWAN kablosuz sensörlerle tavuk çiftliği ortam kontrolü ve hastalık erken uyarı sistemi",
+        "category": "Hayvancılık İzleme Sistemleri",
+        "provider": {
+            "@type": "Organization",
+            "name": "Esular",
+            "url": "https://esular.com"
+        }
+    }
+    </script>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="container">
+            <div class="header-container">
+                <a href="AnaSayfa.html" class="header-logo">
+                    <img src="https://esular.com/images/logo.png" alt="Esular Logo" width="120" height="44"
+                        loading="eager">
+                </a>
+                <nav class="header-nav" id="header-nav">
+                    <a href="AnaSayfa.html">Ana Sayfa</a>
+                    <a href="AnaSayfa.html#solutions" class="active">Çözümler</a>
+                    <a href="blog.html">Blog</a>
+                    <a href="AnaSayfa.html#contact">İletişim</a>
+                </nav>
+                <div class="header-actions">
+                    <a href="https://store.esular.com/" class="btn btn-outline" target="_blank">
+                        <i class="fas fa-shopping-cart"></i> Store
+                    </a>
+                    <button class="hamburger" id="hamburger-btn" aria-label="Menüyü Aç">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero"
+        style="min-height: 80vh; background: linear-gradient(135deg, #f0fbff 0%, #e3f2fd 100%); display: flex; align-items: center; position: relative;">
+        <div class="container">
+            <div class="hero-container" style="text-align: center;">
+                <span class="section-tag"
+                    style="background: rgba(106, 189, 230, 0.1); color: var(--esular-blue); padding: 8px 24px; border-radius: 100px; display: inline-block; margin-bottom: 32px; font-size: 0.9375rem; font-weight: 600; border: 1px solid rgba(106, 189, 230, 0.1);">
+                    💧 Akıllı Su Yönetimi
+                </span>
+                <h1 style="color: var(--gray-900); margin-bottom: 24px; line-height: 1.1;">Suyun Sesi,<br>Sürünün
+                    Sağlığıdır</h1>
+                <p
+                    style="font-size: 1.375rem; color: var(--gray-600); max-width: 750px; margin: 0 auto 56px; line-height: 1.6;">
+                    Su tüketimindeki ani değişimleri yakalayarak hastalıkları <b>48 saat önceden</b> fark edin.
+                    İlaçlamayı ve su kalitesini kontrol altına alın.
+                </p>
+                <div class="hero-stats">
+                    <div class="stat-card">
+                        <div style="font-size: 3rem; margin-bottom: 16px;">🚿</div>
+                        <h3 style="color: var(--gray-900); font-size: 1.25rem; margin-bottom: 12px;">Hassas Sayaç</h3>
+                        <p style="color: var(--gray-600); font-size: 0.9375rem; line-height: 1.5;">Litre bazlı anlık
+                            takip</p>
+                    </div>
+                    <div class="stat-card">
+                        <div style="font-size: 3rem; margin-bottom: 16px;">🚨</div>
+                        <h3 style="color: var(--gray-900); font-size: 1.25rem; margin-bottom: 12px;">Kaçak Uyarısı</h3>
+                        <p style="color: var(--gray-600); font-size: 0.9375rem; line-height: 1.5;">%100 güvenli hat
+                            kontrolü</p>
+                    </div>
+                    <div class="stat-card">
+                        <div style="font-size: 3rem; margin-bottom: 16px;">🏥</div>
+                        <h3 style="color: var(--gray-900); font-size: 1.25rem; margin-bottom: 12px;">Erken Teşhis</h3>
+                        <p style="color: var(--gray-600); font-size: 0.9375rem; line-height: 1.5;">Su tüketimi analizi
+                            ile uyarı</p>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                    <a href="#products" class="btn btn-primary" style="padding: 18px 44px; font-size: 1.125rem;"><i
+                            class="fas fa-arrow-down"></i> Sensörleri İnceleyin</a>
+                    <a href="#contact" class="btn btn-white"
+                        style="padding: 18px 44px; font-size: 1.125rem; border: 2px solid white; background: white; color: var(--gray-800);"><i
+                            class="fas fa-phone"></i> Ücretsiz Danışın</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Critical Parameters Section -->
+    <section style="padding: 100px 0; background: white;">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 60px;">
+                <h2 style="margin-bottom: 24px;">Hayati Su Verileri</h2>
+                <p style="font-size: 1.125rem; color: var(--gray-600); max-width: 800px; margin: 0 auto;">Su tüketimi,
+                    bir tavuk sürüsünün sağlık durumunu gösteren en hassas biyo-belirteçtir.</p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+                <!-- Parameter 1 -->
+                <div
+                    style="padding: 30px; border-radius: 20px; background: #ebf5fb; border: 1px solid rgba(106, 189, 230, 0.2);">
+                    <div style="font-size: 2.5rem; margin-bottom: 20px;">📉</div>
+                    <h3 style="margin-bottom: 12px; color: var(--gray-900);">Tüketim Düşüşü</h3>
+                    <p style="color: var(--gray-600);">Hayvanlar hastalanmadan 12-24 saat önce su içmeyi azaltır. Ani
+                        düşüşlerde sistem sizi anında uyarır.</p>
+                </div>
+
+                <!-- Parameter 2 -->
+                <div
+                    style="padding: 30px; border-radius: 20px; background: #fdf2e9; border: 1px solid rgba(242, 71, 38, 0.2);">
+                    <div style="font-size: 2.5rem; margin-bottom: 20px;">🧪</div>
+                    <h3 style="margin-bottom: 12px; color: var(--gray-900);">İlaç Dozaj Takibi</h3>
+                    <p style="color: var(--gray-600);">Aşı ve ilaç uygulamalarında, hedeflenen su tüketiminin
+                        gerçekleşip gerçekleşmediğini saniye saniye izleyin.</p>
+                </div>
+
+                <!-- Parameter 3 -->
+                <div
+                    style="padding: 30px; border-radius: 20px; background: #eafaf1; border: 1px solid rgba(39, 174, 96, 0.2);">
+                    <div style="font-size: 2.5rem; margin-bottom: 20px;">🧪</div>
+                    <h3 style="margin-bottom: 12px; color: var(--gray-900);">PH & Su Kalitesi</h3>
+                    <p style="color: var(--gray-600);">Suyun PH ve ORP değerlerini 7/24 izleyerek aşı ve ilaçların
+                        etkinliğini garanti altına alın.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Expert Content: Water Consumption & Disease Detection -->
+    <section style="padding: 100px 0; background: #e0f2f1; border-top: 1px solid #b2dfdb;">
+        <div class="container">
+            <div
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 60px; align-items: center;">
+                <div>
+                    <h2 style="font-size: 2.25rem; margin-bottom: 32px; color: #004d40;">Su Tüketim Anomalileri ve
+                        Hastalık Erken Teşhisi</h2>
+                    <p style="color: var(--gray-600); line-height: 1.8; margin-bottom: 24px;">
+                        Bilimsel araştırmalar, tavukların klinik belirti göstermeden 24-48 saat önce su tüketim
+                        alışkanlıklarını değiştirdiğini kanıtlamaktadır.
+                        <strong>Esular su takip sistemi</strong>, bu mikro değişimleri yakalayarak sürü düzeyindeki
+                        riskleri veteriner hekimden önce size bildirir.
+                        Su tüketimindeki ani düşüşler genellikle enfeksiyon belirtisiyken, beklenmedik artışlar ateşli
+                        hastalıkların veya yüksek amonyak seviyesinin habercisi olabilir.
+                    </p>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 16px; display: flex; gap: 12px; color: var(--gray-700);">
+                            <i class="fas fa-check-circle" style="color: #00796b; margin-top: 5px;"></i>
+                            <span><strong>Kaçak ve Zayiat Takibi:</strong> Gece saatlerinde (tavukların uyuduğu dönemde)
+                                devam eden su akışı, nipel kaçaklarını veya patlak boruları anında deşifre eder.</span>
+                        </li>
+                        <li style="margin-bottom: 16px; display: flex; gap: 12px; color: var(--gray-700);">
+                            <i class="fas fa-check-circle" style="color: #00796b; margin-top: 5px;"></i>
+                            <span><strong>İlaç Dozajlama Doğruluğu:</strong> Suya katılan aşı ve vitaminlerin sürü
+                                tarafından homojen şekilde tüketilip tüketilmediğini verilerle teyit edin.</span>
+                        </li>
+                        <li style="margin-bottom: 16px; display: flex; gap: 12px; color: var(--gray-700);">
+                            <i class="fas fa-check-circle" style="color: #00796b; margin-top: 5px;"></i>
+                            <span><span><strong>Sürü Homojenliği:</strong></span> Farklı su hatları arasındaki tüketim
+                                farkları, sürünün kümese dengeli dağılıp dağılmadığını gösterir.</span>
+                        </li>
+                    </ul>
+                </div>
+                <div
+                    style="background: white; padding: 40px; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.06); border-left: 8px solid #00796b;">
+                    <h3 style="margin-bottom: 24px;">Su/Yem Oranı Analizi</h3>
+                    <p style="color: var(--gray-600); line-height: 1.7; margin-bottom: 20px;">
+                        Sağlıklı bir sürüde su/yem oranı genellikle 1.6:1 ile 2:1 arasındadır.
+                        Bu oran bozulduğunda sistemimiz sizi uyararak yem kalitesi veya su sertliği gibi gizli sorunları
+                        araştırmanızı sağlar.
+                    </p>
+                    <div
+                        style="background: #e0f2f1; padding: 20px; border-radius: 12px; font-size: 0.9rem; color: #004d40;">
+                        <i class="fas fa-info-circle"></i> Su yönetiminin performansa etkisi ve akıllı sistemler için
+                        <a href="https://esular.com/blog/akilli-sulama-sistemleri-1" target="_blank"
+                            style="color: #00796b; font-weight: 600;">Esular Su Takip Rehberi</a>'ni
+                        inceleyin.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Showcase -->
+    <section id="products" style="padding: 100px 0; background: var(--gray-100);">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 60px;">
+                <span
+                    style="background: rgba(106, 189, 230, 0.1); color: var(--esular-blue); padding: 8px 20px; border-radius: 100px; display: inline-block; margin-bottom: 16px; font-weight: 600;">🚀
+                    Teknolojimiz</span>
+                <h2 style="margin-bottom: 24px;">Su Takibi İçin Geliştirilmiş Sensörler</h2>
+                <p style="font-size: 1.125rem; color: var(--gray-600); max-width: 800px; margin: 0 auto;">Mevcut
+                    altyapınızı değiştirmeden, sayaçlarınızı akıllı hale getirin.</p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px;">
+
+                <!-- Product 1: Pulse Sayaç Modülü -->
+                <div
+                    style="background: white; border-radius: 20px; padding: 40px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: all 0.3s; position: relative; overflow: hidden; border: 3px solid var(--esular-blue);">
+                    <span
+                        style="position: absolute; top: 16px; right: 16px; background: var(--esular-blue); color: white; padding: 6px 12px; border-radius: 100px; font-size: 0.75rem; font-weight: 600;">BESTSELLER</span>
+                    <div style="font-size: 3.5rem; margin-bottom: 20px;">📟</div>
+                    <h3 style="font-size: 1.5rem; margin-bottom: 16px; color: var(--gray-900);">Pulse Sayaç Okuma Modülü
+                    </h3>
+                    <p style="color: var(--gray-600); margin-bottom: 24px; line-height: 1.6;">Mevcut su sayacınıza
+                        bağlanarak geçen su miktarını (litre) dijitalleştirir ve kablosuz gönderir.</p>
+                    <div style="margin-bottom: 24px;">
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+                            <span style="color: #27ae60; font-size: 1.25rem;">✓</span>
+                            <span style="color: var(--gray-700);">Her marka sayaca uyumlu</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+                            <span style="color: #27ae60; font-size: 1.25rem;">✓</span>
+                            <span style="color: var(--gray-700);">Anlık Litre/Saat takibi</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span style="color: #27ae60; font-size: 1.25rem;">✓</span>
+                            <span style="color: var(--gray-700);">10 Yıl Pil Ömrü</span>
+                        </div>
+                    </div>
+                    <a href="https://esular.com/urunler/sayac-akis-sensoru" target="_blank" class="btn btn-primary"
+                        style="width: 100%; justify-content: center; padding: 14px; background: linear-gradient(135deg, var(--esular-blue) 0%, #4facfe 100%);">Ürünü
+                        İncele</a>
+                </div>
+
+                <!-- Product 2: Su Basınç Sensörü -->
+                <!-- Product 2: Su Kalite Sensörü -->
+                <div
+                    style="background: white; border-radius: 20px; padding: 40px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: all 0.3s; position: relative; overflow: hidden;">
+                    <div style="font-size: 3.5rem; margin-bottom: 20px;">🧪</div>
+                    <h3 style="font-size: 1.5rem; margin-bottom: 16px; color: var(--gray-900);">Su Kalite Sensörü</h3>
+                    <p style="color: var(--gray-600); margin-bottom: 24px; line-height: 1.6;">Suyun kimyasal dengesini
+                        (PH/ORP) anlık takip ederek aşı başarısını artırır.</p>
+                    <div style="margin-bottom: 24px;">
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+                            <span style="color: #27ae60; font-size: 1.25rem;">✓</span>
+                            <span style="color: var(--gray-700);">PH ve ORP Ölçümü</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+                            <span style="color: #27ae60; font-size: 1.25rem;">✓</span>
+                            <span style="color: var(--gray-700);">Sıcaklık Kompanzasyonu</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span style="color: #27ae60; font-size: 1.25rem;">✓</span>
+                            <span style="color: var(--gray-700);">Anlık Veri Takibi</span>
+                        </div>
+                    </div>
+                    <a href="#contact" class="btn btn-outline"
+                        style="width: 100%; justify-content: center; padding: 14px; color: var(--esular-blue); border-color: var(--esular-blue);">Detaylı
+                        Bilgi</a>
+                </div>
+
+                <!-- Product 3: Ultrasonik Debimetre -->
+                <div
+                    style="background: white; border-radius: 20px; padding: 40px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: all 0.3s; position: relative; overflow: hidden;">
+                    <div style="font-size: 3.5rem; margin-bottom: 20px;">🌊</div>
+                    <h3 style="font-size: 1.5rem; margin-bottom: 16px; color: var(--gray-900);">Ultrasonik Debimetre
+                    </h3>
+                    <p style="color: var(--gray-600); margin-bottom: 24px; line-height: 1.6;">Mekanik sayacınız yoksa,
+                        hassas ultrasonik ölçüm ile su tüketimini takip edin.</p>
+                    <div style="margin-bottom: 24px;">
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+                            <span style="color: #27ae60; font-size: 1.25rem;">✓</span>
+                            <span style="color: var(--gray-700);">Hareketli parça yok</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+                            <span style="color: #27ae60; font-size: 1.25rem;">✓</span>
+                            <span style="color: var(--gray-700);">Tıkanma yapmaz</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span style="color: #27ae60; font-size: 1.25rem;">✓</span>
+                            <span style="color: var(--gray-700);">Yüksek hassasiyet</span>
+                        </div>
+                    </div>
+                    <a href="#contact" class="btn btn-outline"
+                        style="width: 100%; justify-content: center; padding: 14px; color: var(--esular-blue); border-color: var(--esular-blue);">Detaylı
+                        Bilgi</a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section style="padding: 100px 0; background: white;">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 60px;">
+                <h2 style="margin-bottom: 24px;">3 Adımda Akıllı Su Yönetimi</h2>
+                <p style="font-size: 1.125rem; color: var(--gray-600); max-width: 700px; margin: 0 auto;">Kurulum
+                    tesisatçı gerektirmez, 5 dakikada tamamlanır.</p>
+            </div>
+            <div
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; max-width: 1000px; margin: 0 auto;">
+                <div style="text-align: center;">
+                    <div
+                        style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--esular-blue), #4facfe); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; color: white; font-size: 2rem; font-weight: 700;">
+                        1</div>
+                    <h3 style="margin-bottom: 16px; font-size: 1.375rem;">Modülü Takın</h3>
+                    <p style="color: var(--gray-600); line-height: 1.6;">Mevcut su sayacınızın pulse çıkışına modülü 2
+                        kablo ile bağlayın.</p>
+                </div>
+                <div style="text-align: center;">
+                    <div
+                        style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--esular-blue), #4facfe); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; color: white; font-size: 2rem; font-weight: 700;">
+                        2</div>
+                    <h3 style="margin-bottom: 16px; font-size: 1.375rem;">İzlemeye Başlayın</h3>
+                    <p style="color: var(--gray-600); line-height: 1.6;">Su tüketiminiz anlık olarak buluta aktarılır.
+                        Mobilden takip edin.</p>
+                </div>
+                <div style="text-align: center;">
+                    <div
+                        style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--esular-blue), #4facfe); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; color: white; font-size: 2rem; font-weight: 700;">
+                        3</div>
+                    <h3 style="margin-bottom: 16px; font-size: 1.375rem;">Anomalileri Yakalayın</h3>
+                    <p style="color: var(--gray-600); line-height: 1.6;">Beklenmedik düşüş (hastalık) veya artış (kaçak)
+                        durumunda bildirim alın.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits -->
+    <section
+        style="padding: 100px 0; background: linear-gradient(135deg, var(--esular-blue) 0%, #2980b9 100%); color: white;">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 60px;">
+                <h2 style="color: white; margin-bottom: 24px;">Neden Su Tüketimi İzlenmeli?</h2>
+                <p style="font-size: 1.125rem; max-width: 700px; margin: 0 auto; opacity: 0.95;">Su, kümes yönetiminde
+                    en kritik ve en ucuz sigortanızdır.</p>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px;">
+                <div
+                    style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 32px; border-radius: 16px;">
+                    <div style="font-size: 2.5rem; margin-bottom: 16px;">⏱️</div>
+                    <h3 style="margin-bottom: 12px; font-size: 1.25rem;">Zaman Kazanırsınız</h3>
+                    <p style="opacity: 0.9;">Günde 2 kez sayaç okumak yerine, veriler cebinize gelir.</p>
+                </div>
+                <div
+                    style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 32px; border-radius: 16px;">
+                    <div style="font-size: 2.5rem; margin-bottom: 16px;">🩹</div>
+                    <h3 style="margin-bottom: 12px; font-size: 1.25rem;">Hastalığı Önler</h3>
+                    <p style="opacity: 0.9;">Su tüketimindeki düşüş, yemden 24 saat önce başlar. Erken müdahale hayat
+                        kurtarır.</p>
+                </div>
+                <div
+                    style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 32px; border-radius: 16px;">
+                    <div style="font-size: 2.5rem; margin-bottom: 16px;">🧪</div>
+                    <h3 style="margin-bottom: 12px; font-size: 1.25rem;">Aşı Başarısını Artırır</h3>
+                    <p style="opacity: 0.9;">Optimum PH seviyesi, aşı ve ilaçların bozulmadan hayvanlara etki etmesini
+                        sağlar.</p>
+                </div>
+                <div
+                    style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 32px; border-radius: 16px;">
+                    <div style="font-size: 2.5rem; margin-bottom: 16px;">💊</div>
+                    <h3 style="margin-bottom: 12px; font-size: 1.25rem;">Aşı/İlaç Takibi</h3>
+                    <p style="opacity: 0.9;">İlaç dozaj pompası çalıştı mı? Hayvanlar ilaçlı suyu içti mi? Emin olun.
+                    </p>
+                </div>
+                <div
+                    style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 32px; border-radius: 16px;">
+                    <div style="font-size: 2.5rem; margin-bottom: 16px;">🔋</div>
+                    <h3 style="margin-bottom: 12px; font-size: 1.25rem;">10 Yıl Pil Ömrü</h3>
+                    <p style="opacity: 0.9;">Elektrik gerektirmez, kablo maliyeti yoktur.</p>
+                </div>
+                <div
+                    style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 32px; border-radius: 16px;">
+                    <div style="font-size: 2.5rem; margin-bottom: 16px;">📊</div>
+                    <h3 style="margin-bottom: 12px; font-size: 1.25rem;">Analitik Raporlar</h3>
+                    <p style="opacity: 0.9;">Geçmiş dönemlerle kıyaslamalı raporlar alın.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technical Specs & FAQ -->
+    <section style="padding: 100px 0; background: white;">
+        <div class="container">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 60px;">
+
+                <!-- Technical Specs -->
+                <div>
+                    <h2 style="margin-bottom: 30px;">Teknik Özellikler</h2>
+                    <div style="background: var(--gray-100); border-radius: 16px; padding: 30px;">
+                        <div
+                            style="display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid #e0e0e0;">
+                            <span style="font-weight: 600;">Giriş Tipi</span>
+                            <span>Pulse (Kuru Kontak)</span>
+                        </div>
+                        <div
+                            style="display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid #e0e0e0;">
+                            <span style="font-weight: 600;">Maksimum Frekans</span>
+                            <span>20 Hz</span>
+                        </div>
+                        <div
+                            style="display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid #e0e0e0;">
+                            <span style="font-weight: 600;">Minimum Pulse Süresi</span>
+                            <span>25 ms</span>
+                        </div>
+                        <div
+                            style="display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid #e0e0e0;">
+                            <span style="font-weight: 600;">İletişim Mesafesi</span>
+                            <span>15 km'ye kadar (LoRaWAN)</span>
+                        </div>
+                        <div
+                            style="display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid #e0e0e0;">
+                            <span style="font-weight: 600;">Pil Ömrü</span>
+                            <span>10 Yıl (Değiştirilebilir)</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 15px 0;">
+                            <span style="font-weight: 600;">Koruma Sınıfı</span>
+                            <span>IP68 (Su Altında Çalışır)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ -->
+                <div>
+                    <h2 style="margin-bottom: 30px;">Sıkça Sorulan Sorular</h2>
+                    <div style="display: flex; flex-direction: column; gap: 20px;">
+                        <details
+                            style="background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; padding: 20px; cursor: pointer;">
+                            <summary
+                                style="font-weight: 600; font-size: 1.125rem; list-style: none; display: flex; justify-content: space-between; align-items: center;">
+                                Her su sayacına uyumlu mu?
+                                <span style="color: var(--esular-blue);">+</span>
+                            </summary>
+                            <p style="margin-top: 15px; color: var(--gray-600); line-height: 1.6;">Evet, üzerinde pulse
+                                çıkışı kablosu olan veya mıknatıslı göstergesi olan tüm mekanik ve dijital sayaçlara
+                                uyumludur.</p>
+                        </details>
+
+                        <details
+                            style="background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; padding: 20px; cursor: pointer;">
+                            <summary
+                                style="font-weight: 600; font-size: 1.125rem; list-style: none; display: flex; justify-content: space-between; align-items: center;">
+                                Elektrik gerekir mi?
+                                <span style="color: var(--esular-blue);">+</span>
+                            </summary>
+                            <p style="margin-top: 15px; color: var(--gray-600); line-height: 1.6;">Hayır, cihazlarımız
+                                dahili pili ile 10 yıla kadar çalışır. Kümesin herhangi bir noktasına asabilirsiniz.</p>
+                        </details>
+
+                        <details
+                            style="background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; padding: 20px; cursor: pointer;">
+                            <summary
+                                style="font-weight: 600; font-size: 1.125rem; list-style: none; display: flex; justify-content: space-between; align-items: center;">
+                                Su kalitesini nasıl ölçüyor?
+                                <span style="color: var(--esular-blue);">+</span>
+                            </summary>
+                            <p style="margin-top: 15px; color: var(--gray-600); line-height: 1.6;">Su hattına entegre
+                                edilen sensörlerimiz PH ve ORP değerlerini anlık olarak ölçer. Bu değerler belirlenen
+                                aralığın dışına çıkarsa (örn. PH > 8) sistem anında alarm gönderir.</p>
+                        </details>
+
+                        <details
+                            style="background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; padding: 20px; cursor: pointer;">
+                            <summary
+                                style="font-weight: 600; font-size: 1.125rem; list-style: none; display: flex; justify-content: space-between; align-items: center;">
+                                İnternet bağlantısı kopsa veri kaybolur mu?
+                                <span style="color: var(--esular-blue);">+</span>
+                            </summary>
+                            <p style="margin-top: 15px; color: var(--gray-600); line-height: 1.6;">Cihaz kendi
+                                hafızasında
+                                verileri tutar ve bağlantı geldiğinde toplu olarak gönderir. Veri kaybı yaşanmaz.</p>
+                        </details>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="contact" style="padding: 100px 0; background: var(--gray-900); color: white; text-align: center;">
+        <div class="container">
+            <h2 style="color: white; margin-bottom: 24px; font-size: 2.5rem;">Tavuk Çiftliğinizi Akıllı Hale Getirmeye
+                Hazır mısınız?</h2>
+            <p style="font-size: 1.25rem; opacity: 0.9; max-width: 700px; margin: 0 auto 40px;">Ücretsiz keşif görüşmesi
+                için iletişime geçin. Size özel çözüm önerimizi paylaşalım.</p>
+            <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                <a href="/iletisim" class="btn btn-primary" style="padding: 18px 40px; font-size: 1.125rem;"><i
+                        class="fas fa-phone"></i> Hemen İletişime Geç</a>
+                <a href="mailto:info@esular.com" class="btn btn-white"
+                    style="padding: 18px 40px; font-size: 1.125rem;"><i class="fas fa-envelope"></i> E-posta
+                    Gönderin</a>
+            </div>
+            <p style="margin-top: 32px; font-size: 0.9375rem; opacity: 0.7;">🚀 2000+ çiftlik Esular teknolojisini
+                kullanıyor</p>
+        </div>
+    </section>
+
+
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <img src="https://esular.com/images/logo.png" alt="Esular" width="120" height="40" loading="lazy"
+                        style="margin-bottom: 16px;">
+                    <p style="color: rgba(255,255,255,0.7);">Akıllı tarım teknolojileri ile tarımınızı geleceğe
+                        taşıyoruz.</p>
+                    <div class="footer-social" style="display: flex; gap: 12px; margin-top: 20px;">
+                        <a href="https://www.facebook.com/esularr" target="_blank"
+                            style="width: 40px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white;">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://www.instagram.com/esular1/" target="_blank"
+                            style="width: 40px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white;">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/company/esular" target="_blank"
+                            style="width: 40px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white;">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h5 style="color: white; margin-bottom: 16px;">Ürünler</h5>
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <a href="/urunler/toprak-nem-sensoru" style="color: rgba(255,255,255,0.7);">Toprak Nem
+                            Sensörü</a>
+                        <a href="/urunler/kablosuz-sulama" style="color: rgba(255,255,255,0.7);">Kablosuz Sulama</a>
+                        <a href="/sensorler" style="color: rgba(255,255,255,0.7);">Tüm Sensörler</a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h5 style="color: white; margin-bottom: 16px;">Kurumsal</h5>
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <a href="/hakkimizda" style="color: rgba(255,255,255,0.7);">Hakkımızda</a>
+                        <a href="/teknolojimiz" style="color: rgba(255,255,255,0.7);">Teknolojimiz</a>
+                        <a href="/iletisim" style="color: rgba(255,255,255,0.7);">İletişim</a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h5 style="color: white; margin-bottom: 16px;">İletişim</h5>
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <a href="tel:08503034991" style="color: rgba(255,255,255,0.7);">0850 303 49 91</a>
+                        <a href="mailto:info@esular.com" style="color: rgba(255,255,255,0.7);">info@esular.com</a>
+                    </div>
+                </div>
+            </div>
+            <div
+                style="border-top: 1px solid rgba(255,255,255,0.1); margin-top: 40px; padding-top: 24px; text-align: center; color: rgba(255,255,255,0.6);">
+                <p>&copy; 2025 Esular. Tüm hakları saklıdır.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Float Button -->
+    <div class="whatsapp-float" style="position: fixed; bottom: 30px; right: 30px; z-index: 999;">
+        <a href="https://wa.me/905412474505" target="_blank"
+            style="display: flex; align-items: center; justify-content: center; width: 60px; height: 60px; background: #25D366; color: white; border-radius: 50%; font-size: 32px; box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+    </div>
+
+
+    <script>
+        // Hamburger Menu Toggle
+        const hamburgerBtn = document.getElementById('hamburger-btn');
+        const headerNav = document.getElementById('header-nav');
+
+        hamburgerBtn.addEventListener('click', () => {
+            headerNav.classList.toggle('active');
+            const icon = hamburgerBtn.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+
+        // Close menu when clicking links
+        document.querySelectorAll('.header-nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                headerNav.classList.remove('active');
+                const icon = hamburgerBtn.querySelector('i');
+                icon.classList.add('fa-bars');
+                icon.classList.remove('fa-times');
+            });
+        });
+    </script>
+</body>
+
+</html>

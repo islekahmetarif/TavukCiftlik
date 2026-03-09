@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="tr" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kümeslerde Hava Kalitesi: Amonyak ve Nem | Esular Blog</title>
+    <style>
+        :root {
+            --esular-orange: #f24726;
+            --esular-orange-dark: #d93d1f;
+            --white: #fff;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-600: #4b5563;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --font-primary: 'Poppins', sans-serif;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: var(--font-primary);
+            line-height: 1.7;
+            color: var(--gray-800);
+            background: var(--gray-50);
+            margin: 0;
+        }
+
+        .header {
+            background: var(--white);
+            box-shadow: var(--shadow-sm);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .blog-hero-section {
+            background: #2b2a35;
+            color: var(--white);
+            padding: 80px 0 60px;
+            text-align: center;
+        }
+
+        .blog-hero-section h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin-bottom: 24px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.2;
+        }
+
+        .blog-meta {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .blog-meta span {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .main-container {
+            max-width: 900px;
+            margin: -40px auto 80px;
+            padding: 0 20px;
+        }
+
+        .article-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--esular-orange);
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 30px;
+            transition: transform 0.2s;
+        }
+
+        .back-link:hover {
+            transform: translateX(-5px);
+        }
+
+        /* TOC Structure */
+        .toc-box {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 40px;
+            border-left: 4px solid var(--esular-orange);
+        }
+
+        .toc-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--gray-900);
+        }
+
+        .toc-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+        }
+
+        .toc-list a {
+            text-decoration: none;
+            color: var(--gray-600);
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .toc-list a:hover {
+            color: var(--esular-orange);
+        }
+
+        .content h2 {
+            font-size: 1.8rem;
+            color: var(--gray-900);
+            margin-top: 50px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--gray-100);
+        }
+
+        .content p {
+            margin-bottom: 24px;
+            color: var(--gray-600);
+            font-size: 1.05rem;
+        }
+
+        .highlight-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 30px;
+            margin: 40px 0;
+        }
+
+        @media (max-width: 768px) {
+            .article-card {
+                padding: 30px;
+            }
+
+            .blog-hero-section {
+                padding: 60px 0 40px;
+            }
+
+            .blog-meta {
+                flex-direction: column;
+                gap: 10px;
+                align-items: center;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="nav-container">
+            <a href="AnaSayfa.html"><img src="https://esular.com/images/logo.png" alt="Esular" width="120"></a>
+            <nav><a href="blog.html" class="back-link" style="margin-bottom:0;"><i class="fas fa-th-large"></i> Blog</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="blog-hero-section">
+        <div class="container">
+            <h1>Kümeslerde Hava Kalitesi Yönetimi: Görünmez Tehlikelerin Kontrolü</h1>
+            <div class="blog-meta">
+                <span><i class="far fa-calendar-alt"></i> 18 Şubat 2026</span>
+                <span><i class="far fa-user"></i> Esular Akademi</span>
+                <span><i class="far fa-eye"></i> 1320 Görüntülenme</span>
+            </div>
+        </div>
+    </section>
+
+    <main class="main-container">
+        <article class="article-card">
+            <a href="blog.html" class="back-link"><i class="fas fa-arrow-left"></i> Tüm Yazılar</a>
+
+            <div class="toc-box">
+                <div class="toc-title"><i class="fas fa-list-ul"></i> İçindekiler</div>
+                <nav class="toc-list">
+                    <a href="#giris">1. Giriş: Hava Kalitesi Neden Önemli?</a>
+                    <a href="#parametreler">2. Kritik Hava Kalitesi Parametreleri ve Eşikler</a>
+                    <a href="#amonyak-etkisi">3. Amonyak (NH3) ve Solunum Yolu Savunması</a>
+                    <a href="#nem-yonetimi">4. Nem Kontrolü ve Altlık Kalitesi</a>
+                    <a href="#co2-oksijen">5. CO2 Seviyesi ve Metabolik Oksijen Dengesi</a>
+                    <a href="#sonuc">6. Sonuç: Ölçemediğiniz Havayı Yönetemezsiniz</a>
+                </nav>
+            </div>
+
+            <div class="content">
+                <h2 id="giris">1. Giriş: Hava Kalitesi Neden Önemli?</h2>
+                <p>Kümes içi hava kalitesi, broylerlerin sağlığı, refahı ve büyüme performansı için en belirleyici
+                    faktördür. Havalandırma sadece taze hava sağlamak değil, aynı zamanda canlıların ürettiği nemi,
+                    karbondioksiti ve altlıktan kaynaklanan amonyağı ortamdan uzaklaştırmaktır. Kötü hava kalitesi, ilaç
+                    maliyetlerini artırırken karkas kalitesini düşürür.</p>
+
+                <h2 id="parametreler">2. Kritik Hava Kalitesi Parametreleri ve Eşikler</h2>
+                <div class="highlight-box">
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="border-bottom: 2px solid var(--gray-200); text-align: left;">
+                                <th style="padding: 12px;">Parametre</th>
+                                <th style="padding: 12px;">Hedef Değer</th>
+                                <th style="padding: 12px;">Kritik Etki</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="border-bottom: 1px solid var(--gray-100);">
+                                <td style="padding: 12px;">Amonyak (NH3)</td>
+                                <td style="padding: 12px;">
+                                    < 20 ppm</td>
+                                <td style="padding: 12px;">Solunum Felci, Göz Hasarı</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid var(--gray-100);">
+                                <td style="padding: 12px;">Karbondioksit (CO2)</td>
+                                <td style="padding: 12px;">
+                                    < 2500 ppm</td>
+                                <td style="padding: 12px;">Letarji, Ascites Riski</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 12px;">Bağıl Nem</td>
+                                <td style="padding: 12px;">%50 - %70</td>
+                                <td style="padding: 12px;">Toz veya Islak Altlık</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h2 id="amonyak-etkisi">3. Amonyak (NH3) ve Solunum Yolu Savunması</h2>
+                <p>Amonyak, solunum yolundaki koruyucu silyaları felç eder. 20 ppm seviyesinin üzerindeki maruziyet,
+                    Newcastle ve Bronşit aşılarının başarısını %35 oranında düşürür. Esular dijital NH3 sensörleri ile
+                    seviyeler kritik eşiğe ulaşmadan havalandırma proaktif olarak artırılır.</p>
+
+                <h2 id="nem-yonetimi">4. Nem Kontrolü ve Altlık Kalitesi</h2>
+                <p>Yüksek nem, altlıkta bakteriyel aktiviteyi ve amonyak üretimini tetikler. Esular nem sensörleri, iç
+                    ortam nemini %60 seviyesinde tutmak için soğutma ve havalandırma döngülerini senkronize eder. Bu,
+                    ayak yaralarını (pododermatitis) önler ve karkas değerini korur.</p>
+
+                <h2 id="co2-oksijen">5. CO2 Seviyesi ve Metabolik Oksijen Dengesi</h2>
+                <p>Kışın ısı tasarrufu için havalandırmayı kısmak, CO2'nin yükselmesine ve oksijenin yetersiz kalmasına
+                    yol açar. Esular'ın CO2 odaklı minimum havalandırma algoritması, hipoksi kaynaklı ölümleri minimize
+                    ederken en verimli ısı kullanımını sağlar.</p>
+
+                <h2 id="sonuc">6. Sonuç: Ölçemediğiniz Havayı Yönetemezsiniz</h2>
+                <p>Hava kalitesi yönetimi, modern hayvancılıkta karlılığın gizli anahtarıdır. Esular'ın bütünleşik
+                    sensör ağı ile kümesinizin nefes almasını sağlayın.</p>
+            </div>
+        </article>
+
+        <!-- Yorumlar Bölümü -->
+        <div
+            style="background: var(--white); border-radius: 30px; padding: 40px; box-shadow: var(--shadow); margin-bottom: 80px;">
+            <h3 style="color: var(--gray-900); margin-bottom: 30px;">Yorumlar</h3>
+            <div id="disqus_thread"></div>
+            <script>
+                var disqus_config = function () {
+                    this.page.url = window.location.href;
+                    this.page.identifier = window.location.pathname;
+                };
+                (function () {
+                    var d = document, s = d.createElement('script');
+                    s.src = 'https://esular-blog.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Lütfen yorumları görüntülemek için JavaScript'i etkinleştirin. <a
+                    href="https://disqus.com/?ref_noscript">Disqus tarafından sağlanan yorumlar.</a></noscript>
+        </div>
+        </div>
+        </div>
+
+        <footer class="footer">
+            <p>&copy; 2026 Esular</p>
+        </footer>
+</body>
+
+</html>

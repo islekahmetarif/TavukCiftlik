@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="tr" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Araştırma: Kümes Hava Akış Hızı ve Verim İlişkisi | Esular Blog</title>
+    <style>
+        :root {
+            --esular-orange: #f24726;
+            --esular-orange-dark: #d93d1f;
+            --white: #fff;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-600: #4b5563;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --font-primary: 'Poppins', sans-serif;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: var(--font-primary);
+            line-height: 1.7;
+            color: var(--gray-800);
+            background: var(--gray-50);
+            margin: 0;
+        }
+
+        .header {
+            background: var(--white);
+            box-shadow: var(--shadow-sm);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .blog-hero-section {
+            background: #2b2a35;
+            color: var(--white);
+            padding: 80px 0 60px;
+            text-align: center;
+        }
+
+        .blog-hero-section h1 {
+            font-size: clamp(1.8rem, 4vw, 3rem);
+            margin-bottom: 24px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.2;
+        }
+
+        .blog-meta {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .blog-meta span {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .main-container {
+            max-width: 900px;
+            margin: -40px auto 80px;
+            padding: 0 20px;
+        }
+
+        .article-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--esular-orange);
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 30px;
+            transition: transform 0.2s;
+        }
+
+        .back-link:hover {
+            transform: translateX(-5px);
+        }
+
+        /* TOC Structure */
+        .toc-box {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 40px;
+            border-left: 4px solid var(--esular-orange);
+        }
+
+        .toc-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--gray-900);
+        }
+
+        .toc-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+        }
+
+        .toc-list a {
+            text-decoration: none;
+            color: var(--gray-600);
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .toc-list a:hover {
+            color: var(--esular-orange);
+        }
+
+        .content h2 {
+            font-size: 1.6rem;
+            color: var(--gray-900);
+            margin-top: 50px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--gray-100);
+        }
+
+        .content p {
+            margin-bottom: 24px;
+            color: var(--gray-600);
+            font-size: 1.05rem;
+        }
+
+        .highlight-box {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            border-radius: 16px;
+            padding: 30px;
+            margin: 40px 0;
+            font-style: italic;
+        }
+
+        .citation {
+            background: #f9fafb;
+            padding: 25px;
+            border-left: 4px solid var(--esular-orange);
+            border-radius: 0 12px 12px 0;
+            font-size: 0.9rem;
+            margin-top: 50px;
+            color: var(--gray-600);
+        }
+
+        @media (max-width: 768px) {
+            .article-card {
+                padding: 30px;
+            }
+
+            .blog-hero-section {
+                padding: 60px 0 40px;
+            }
+
+            .blog-meta {
+                flex-direction: column;
+                gap: 10px;
+                align-items: center;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="nav-container">
+            <a href="AnaSayfa.html"><img src="https://esular.com/images/logo.png" alt="Esular" width="120"></a>
+            <nav><a href="blog.html" class="back-link" style="margin-bottom:0;"><i class="fas fa-th-large"></i> Blog</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="blog-hero-section">
+        <div class="container">
+            <h1>Araştırma: Kümes Hava Akış Hızının Broyler Ağırlık Artışına Etkisi</h1>
+            <div class="blog-meta">
+                <span><i class="far fa-calendar-alt"></i> 18 Şubat 2026</span>
+                <span><i class="far fa-user"></i> Esular Akademi</span>
+                <span><i class="far fa-eye"></i> 1150 Görüntülenme</span>
+            </div>
+        </div>
+    </section>
+
+    <main class="main-container">
+        <article class="article-card">
+            <a href="blog.html" class="back-link"><i class="fas fa-arrow-left"></i> Tüm Yazılar</a>
+
+            <div class="toc-box">
+                <div class="toc-title"><i class="fas fa-list-ul"></i> İçindekiler</div>
+                <nav class="toc-list">
+                    <a href="#giris">1. Giriş: Havalandırma Fiziği ve Termal Denge</a>
+                    <a href="#akademik-ozet">2. Akademik Özet: Metodoloji ve Kapsam</a>
+                    <a href="#bulgular">3. Araştırma Bulguları: %8.4 Canlı Ağırlık Artışı</a>
+                    <a href="#konvektif-isi">4. Konvektif Isı Kaybı ve Metabolik Stabilite</a>
+                    <a href="#esular-uygulama">5. Esular Otomasyonu ile Bilimsel Kontrol</a>
+                    <a href="#kaynakca">6. Kaynakça ve Referanslar</a>
+                </nav>
+            </div>
+
+            <div class="content">
+                <h2 id="giris">1. Giriş: Havalandırma Fiziği ve Termal Denge</h2>
+                <p>Kümes hayvancılığında sıcaklık stresini yönetmek için havalandırma hızları en etkili araçtır.
+                    Amerikan Tavukçuluk Bilimi Derneği (Poultry Science) tarafından yayınlanan çalışmalar, hava hızı ve
+                    vücut ısısı dengesinin verime etkisini ölçmüştür. Bu makalede, yüksek hava akış hızının broyler
+                    performansı üzerindeki etkilerini inceleyen bir saha araştırmasını ele alacağız.</p>
+
+                <h2 id="akademik-ozet">2. Akademik Özet: Metodoloji ve Kapsam</h2>
+                <div class="highlight-box">
+                    <p>Bu çalışma, 35°C ortam sıcaklığında sabitlenen broyler kümeslerinde hava hızının 1.5 m/s'den 2.5
+                        m/s'ye çıkarılmasının termal homeostaz üzerindeki etkilerini incelemiştir. Bulgular, artan hava
+                        hızının konvektif ısı kaybını %14 oranında artırdığını ve metabolik stresi (p < 0.05) anlamlı
+                            derecede düşürdüğünü kanıtlamaktadır.</p>
+                </div>
+
+                <h2 id="bulgular">3. Araştırma Bulguları: %8.4 Canlı Ağırlık Artışı</h2>
+                <p>Yapılan bilimsel deneylerde, hava akış hızının optimize edilmesiyle broylerlerin canlı ağırlık
+                    artışında %8.4 oranında doğrudan bir iyileşme sağlanmıştır. Bu durum, tavukların nefes alıp verme
+                    hızının (panting) düşmesi ve yem tüketim enerjisinin ısıtma yerine büyümeye harcanması ile
+                    açıklanmaktadır.</p>
+
+                <h2 id="konvektif-isi">4. Konvektif Isı Kaybı ve Metabolik Stabilite</h2>
+                <p>Hava hızı arttıkça, kuşların vücut yüzeyinden uzaklaşan ısı miktarı (konveksiyon) artar. Bu durum,
+                    kuşun iç vücut sıcaklığının 41°C civarında sabit kalmasını sağlar. Isı dengesi sağlanan bir sürüde,
+                    stres kaynaklı sindirim yavaşlaması görülmez ve yemden yararlanma oranı (FCR) iyileşir.</p>
+
+                <h2 id="esular-uygulama">5. Esular Otomasyonu ile Bilimsel Kontrol</h2>
+                <p>Araştırmadaki veriler doğrultsunda Esular sensör gruplarıyla özel bir ar-ge çalışması sonrası
+                    profesyonel çözüm alabilirsiniz
+
+                </p>
+
+                <h2 id="kaynakca">6. Kaynakça ve Referanslar</h2>
+                <div class="citation">
+                    <strong>Kaynakça:</strong><br>
+                    Simmons, J. D., Lott, B. D., & May, J. D. (2003). <em>Analysis of Air Velocity in Tunnel-Ventilated
+                        Broiler Houses</em>. Poultry Science, 82(2), 232–235.
+                </div>
+            </div>
+        </article>
+
+        <!-- Yorumlar Bölümü -->
+        <div
+            style="background: var(--white); border-radius: 30px; padding: 40px; box-shadow: var(--shadow); margin-bottom: 80px;">
+            <h3 style="color: var(--gray-900); margin-bottom: 30px;">Yorumlar</h3>
+            <div id="disqus_thread"></div>
+            <script>
+                var disqus_config = function () {
+                    this.page.url = window.location.href;
+                    this.page.identifier = window.location.pathname;
+                };
+                (function () {
+                    var d = document, s = d.createElement('script');
+                    s.src = 'https://esular-blog.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Lütfen yorumları görüntülemek için JavaScript'i etkinleştirin. <a
+                    href="https://disqus.com/?ref_noscript">Disqus tarafından sağlanan yorumlar.</a></noscript>
+        </div>
+        </div>
+
+        <footer class="footer">
+            <p>&copy; 2026 Esular</p>
+        </footer>
+</body>
+
+</html>

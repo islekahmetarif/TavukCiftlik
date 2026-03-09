@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="tr" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kümes Çiftliklerinde Gaz Sensörleri ile Hava Kalitesi İzleme | Esular Blog</title>
+    <meta name="description"
+        content="NH3, CO2, CH4, H2S ve N2O gibi zararlı gazların tavuk kümeslerindeki etkileri ve Metal Oksit Yarı İletken sensörlerle IoT tabanlı izleme yöntemleri hakkında kapsamlı rehber.">
+    <meta name="keywords"
+        content="kümes hava kalitesi, gaz sensörü, amonyak sensörü, tavukçuluk IoT, MOS sensör, NH3, CO2, CH4, H2S, N2O, tavuk refahı">
+    <meta name="author" content="Esular Akademi">
+    <meta property="og:title" content="Kümes Çiftliklerinde Gaz Sensörleri ile Hava Kalitesi İzleme">
+    <meta property="og:description"
+        content="Poultry farmlarında NH3, CO2, CH4, H2S ve N2O gazlarının izlenmesi için sensör teknolojileri ve IoT sistemleri rehberi.">
+    <meta property="og:type" content="article">
+    <style>
+        :root {
+            --esular-orange: #f24726;
+            --esular-orange-dark: #d93d1f;
+            --white: #fff;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-600: #4b5563;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --font-primary: 'Poppins', sans-serif;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            line-height: 1.7;
+            color: var(--gray-800);
+            background: var(--gray-50);
+            margin: 0;
+        }
+
+        .header {
+            background: var(--white);
+            box-shadow: var(--shadow-sm);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .blog-hero-section {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: var(--white);
+            padding: 80px 0 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .blog-hero-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at center, rgba(242, 71, 38, 0.15) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(242, 71, 38, 0.2);
+            border: 1px solid rgba(242, 71, 38, 0.4);
+            color: #ff8a6e;
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 6px 16px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .blog-hero-section h1 {
+            font-size: clamp(1.8rem, 4vw, 3rem);
+            margin-bottom: 24px;
+            max-width: 850px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 0;
+            line-height: 1.25;
+            position: relative;
+        }
+
+        .blog-hero-section .hero-desc {
+            font-size: 1.05rem;
+            color: rgba(255, 255, 255, 0.72);
+            max-width: 650px;
+            margin: 0 auto 28px;
+            position: relative;
+        }
+
+        .blog-meta {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.65);
+            flex-wrap: wrap;
+            position: relative;
+        }
+
+        .blog-meta span {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .main-container {
+            max-width: 900px;
+            margin: -40px auto 80px;
+            padding: 0 20px;
+        }
+
+        .article-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--esular-orange);
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 30px;
+            transition: transform 0.2s;
+            font-size: 0.95rem;
+        }
+
+        .back-link:hover {
+            transform: translateX(-5px);
+        }
+
+        /* TOC */
+        .toc-box {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 40px;
+            border-left: 4px solid var(--esular-orange);
+        }
+
+        .toc-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--gray-900);
+        }
+
+        .toc-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+        }
+
+        .toc-list a {
+            text-decoration: none;
+            color: var(--gray-600);
+            font-size: 0.95rem;
+            transition: color 0.2s;
+            padding: 2px 0;
+        }
+
+        .toc-list a:hover {
+            color: var(--esular-orange);
+        }
+
+        .content h2 {
+            font-size: 1.7rem;
+            color: var(--gray-900);
+            margin-top: 50px;
+            margin-bottom: 18px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--gray-100);
+        }
+
+        .content h3 {
+            font-size: 1.2rem;
+            color: var(--gray-800);
+            margin-top: 30px;
+            margin-bottom: 12px;
+        }
+
+        .content p {
+            margin-bottom: 22px;
+            color: var(--gray-600);
+            font-size: 1.02rem;
+        }
+
+        .content ul,
+        .content ol {
+            color: var(--gray-600);
+            font-size: 1.02rem;
+            margin-bottom: 22px;
+            padding-left: 24px;
+        }
+
+        .content li {
+            margin-bottom: 8px;
+        }
+
+        /* Highlight boxes */
+        .highlight-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 28px 32px;
+            margin: 36px 0;
+        }
+
+        .highlight-box.orange {
+            background: #fff8f6;
+            border-color: rgba(242, 71, 38, 0.25);
+            border-left: 4px solid var(--esular-orange);
+        }
+
+        .highlight-box.blue {
+            background: #f0f7ff;
+            border-color: #bee3f8;
+            border-left: 4px solid #3182ce;
+        }
+
+        .highlight-box.green {
+            background: #f0fff4;
+            border-color: #9ae6b4;
+            border-left: 4px solid #38a169;
+        }
+
+        .highlight-box.yellow {
+            background: #fffff0;
+            border-color: #fefcbf;
+            border-left: 4px solid #d69e2e;
+        }
+
+        /* Gas cards */
+        .gas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 16px;
+            margin: 32px 0;
+        }
+
+        .gas-card {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: 14px;
+            padding: 20px 16px;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .gas-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .gas-card .symbol {
+            font-size: 1.9rem;
+            font-weight: 800;
+            color: var(--esular-orange);
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .gas-card .name {
+            font-size: 0.85rem;
+            color: var(--gray-600);
+            font-weight: 600;
+        }
+
+        .gas-card .limit {
+            font-size: 0.78rem;
+            color: var(--gray-600);
+            margin-top: 6px;
+            background: var(--gray-100);
+            border-radius: 8px;
+            padding: 3px 8px;
+            display: inline-block;
+        }
+
+        /* Warning banner */
+        .warning-banner {
+            background: linear-gradient(135deg, #fff5f5 0%, #fed7d7 100%);
+            border: 1px solid #fc8181;
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin: 28px 0;
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+        }
+
+        .warning-banner .icon {
+            font-size: 1.4rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .warning-banner p {
+            margin: 0;
+            color: #742a2a;
+            font-size: 0.97rem;
+        }
+
+        /* Info banner */
+        .info-banner {
+            background: linear-gradient(135deg, #ebf8ff 0%, #bee3f8 100%);
+            border: 1px solid #63b3ed;
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin: 28px 0;
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+        }
+
+        .info-banner .icon {
+            font-size: 1.4rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .info-banner p {
+            margin: 0;
+            color: #1a365d;
+            font-size: 0.97rem;
+        }
+
+        /* Table */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.92rem;
+            margin: 24px 0;
+        }
+
+        .data-table th {
+            background: var(--gray-800);
+            color: var(--white);
+            padding: 12px 14px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .data-table th:first-child {
+            border-radius: 8px 0 0 0;
+        }
+
+        .data-table th:last-child {
+            border-radius: 0 8px 0 0;
+        }
+
+        .data-table td {
+            padding: 11px 14px;
+            border-bottom: 1px solid var(--gray-100);
+            color: var(--gray-700);
+        }
+
+        .data-table tr:nth-child(even) td {
+            background: var(--gray-50);
+        }
+
+        .data-table tr:last-child td:first-child {
+            border-radius: 0 0 0 8px;
+        }
+
+        .data-table tr:last-child td:last-child {
+            border-radius: 0 0 8px 0;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+
+        .badge-red {
+            background: #fed7d7;
+            color: #c53030;
+        }
+
+        .badge-orange {
+            background: #feebc8;
+            color: #c05621;
+        }
+
+        .badge-green {
+            background: #c6f6d5;
+            color: #276749;
+        }
+
+        /* Source cite */
+        .source-cite {
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: 10px;
+            padding: 14px 18px;
+            font-size: 0.8rem;
+            color: var(--gray-600);
+            margin-top: 48px;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--gray-900);
+            color: rgba(255, 255, 255, 0.6);
+            text-align: center;
+            padding: 24px;
+            font-size: 0.9rem;
+        }
+
+        /* CTA */
+        .cta-block {
+            background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%);
+            border-radius: 18px;
+            padding: 36px;
+            text-align: center;
+            margin: 48px 0;
+            color: var(--white);
+        }
+
+        .cta-block h3 {
+            margin: 0 0 12px;
+            font-size: 1.4rem;
+        }
+
+        .cta-block p {
+            color: rgba(255, 255, 255, 0.72);
+            margin: 0 0 22px;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            background: var(--esular-orange);
+            color: var(--white);
+            text-decoration: none;
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .cta-btn:hover {
+            background: var(--esular-orange-dark);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .article-card {
+                padding: 28px 22px;
+            }
+
+            .blog-hero-section {
+                padding: 60px 16px 50px;
+            }
+
+            .blog-meta {
+                flex-direction: column;
+                gap: 10px;
+                align-items: center;
+            }
+
+            .gas-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .data-table {
+                font-size: 0.82rem;
+            }
+
+            .data-table th,
+            .data-table td {
+                padding: 9px 10px;
+            }
+
+            .content h2 {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <header class="header">
+        <div class="nav-container">
+            <a href="AnaSayfa.html"><img src="https://esular.com/images/logo.png" alt="Esular" width="120"></a>
+            <nav>
+                <a href="blog.html" class="back-link" style="margin-bottom:0;">
+                    <i class="fas fa-th-large"></i> Blog
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="blog-hero-section">
+        <div class="hero-badge">🔬 Akademik Araştırma</div>
+        <h1>Kümes Çiftliklerinde Gaz Sensörleri ile<br>Hava Kalitesi İzleme</h1>
+        <p class="hero-desc">NH3, CO2, CH4, H2S ve N2O gazlarının tavuk sağlığına etkileri ve Metal Oksit Yarı İletken
+            (MOS) sensörlerin modern IoT çiftçiliğindeki rolü</p>
+        <div class="blog-meta">
+            <span><i class="far fa-calendar-alt"></i> 23 Şubat 2026</span>
+            <span><i class="far fa-user"></i> Esular Akademi</span>
+            <span><i class="fas fa-book-open"></i> Chemosensors 2025, 13, 347'den uyarlanmıştır</span>
+            <span><i class="far fa-clock"></i> ~12 dk okuma</span>
+        </div>
+    </section>
+
+    <main class="main-container">
+        <article class="article-card">
+            <a href="blog.html" class="back-link"><i class="fas fa-arrow-left"></i> Tüm Yazılar</a>
+
+            <div class="toc-box">
+                <div class="toc-title"><i class="fas fa-list-ul"></i> İçindekiler</div>
+                <nav class="toc-list">
+                    <a href="#giris">1. Giriş: Neden Kümes Havasını Takip Etmek Şart?</a>
+                    <a href="#gazlar">2. Kümes Ortamındaki Kritik Gazlar</a>
+                    <a href="#amonyak">3. Amonyak (NH3): Görünmez Büyüme Düşmanı</a>
+                    <a href="#nitrozoksit">4. Nitröz Oksit (N2O): Sera Gazı ve Ozon Tehdidi</a>
+                    <a href="#metan">5. Metan (CH4): Çevresel Sürdürülebilirlik Sorunu</a>
+                    <a href="#co2">6. Karbondioksit (CO2): Sürü Sağlığıyla Doğrudan İlişki</a>
+                    <a href="#h2s">7. Hidrojen Sülfür (H2S): Akut Zehirlenme Riski</a>
+                    <a href="#sensor-tek">8. Gaz Sensörü Teknolojileri: MOS Sensörlerin Üstünlüğü</a>
+                    <a href="#iot">9. IoT ile Entegre Çiftlik Yönetimi</a>
+                    <a href="#geleçek">10. Gelecek: Yapay Zeka Destekli İzleme</a>
+                    <a href="#sonuc">11. Sonuç</a>
+                </nav>
+            </div>
+
+            <div class="content">
+
+                <!-- 1. GİRİŞ -->
+                <h2 id="giris">1. Giriş: Neden Kümes Havasını Takip Etmek Şart?</h2>
+                <p>Dünya nüfusunun 2050 yılına kadar dokuz milyarı aşması beklenmektedir. Bu büyüme, gıda talebini de
+                    beraberinde artırmaktadır. Tavuk yetiştiriciliği; görece düşük çevre ayak izi ve kısa üretim
+                    döngüsüyle artan talebi karşılamak için kritik bir çözüm sunmaktadır. Ancak bu büyüme fırsatını
+                    sürdürülebilir kılmak için kümes içi ortamın titizlikle yönetilmesi gerekmektedir.</p>
+
+                <p>Kümes içinde birikim yapan gazlar —amonyak (NH3), nitröz oksit (N2O), metan (CH4), karbondioksit
+                    (CO2) ve hidrojen sülfür (H2S)— kanatlı sağlığını, çalışan güvenliğini ve çevresel
+                    sürdürülebilirliği doğrudan tehdit etmektedir. Üstelik bu tehditler çoğu zaman gözle görülmez; ölçüm
+                    yapılmadan fark edilemez.</p>
+
+                <div class="info-banner">
+                    <span class="icon">💡</span>
+                    <p>Kümes içi bağıl nem ideal olarak <strong>%50–%70</strong> arasında tutulmalıdır. Düşük nem,
+                        mukoza zarlarını kuruturken yüksek nem ve sıcaklık bileşimi broyler performansını ciddi biçimde
+                        düşürür.</p>
+                </div>
+
+                <!-- 2. KRİTİK GAZLAR -->
+                <h2 id="gazlar">2. Kümes Ortamındaki Kritik Gazlar</h2>
+                <p>Bir tavuk kümesinde gübre ayrışması, atık yönetimi ve havalandırma sistemleri birlikte beş ana
+                    zararlı gazın oluşmasına zemin hazırlar:</p>
+
+                <div class="gas-grid">
+                    <div class="gas-card">
+                        <span class="symbol">NH₃</span>
+                        <div class="name">Amonyak</div>
+                        <div class="limit">Eşik: 25 ppm</div>
+                    </div>
+                    <div class="gas-card">
+                        <span class="symbol">N₂O</span>
+                        <div class="name">Nitröz Oksit</div>
+                        <div class="limit">Sera gazı</div>
+                    </div>
+                    <div class="gas-card">
+                        <span class="symbol">CH₄</span>
+                        <div class="name">Metan</div>
+                        <div class="limit">GHG katkısı</div>
+                    </div>
+                    <div class="gas-card">
+                        <span class="symbol">CO₂</span>
+                        <div class="name">Karbondioksit</div>
+                        <div class="limit">Eşik: 3.000 ppm</div>
+                    </div>
+                    <div class="gas-card">
+                        <span class="symbol">H₂S</span>
+                        <div class="name">Hidrojen Sülfür</div>
+                        <div class="limit">Çok toksik</div>
+                    </div>
+                </div>
+
+                <p>Bu gazların tamamını eş zamanlı izlemek, hem hayvan refahını hem de işçi güvenliğini güvence altına
+                    almanın tek yoludur.</p>
+
+                <!-- 3. AMONYAK -->
+                <h2 id="amonyak">3. Amonyak (NH₃): Görünmez Büyüme Düşmanı</h2>
+                <p>Amonyak, kanatlı gübresi ayrışmasının kaçınılmaz bir ürünüdür. İnsanlar 25 ppm'den itibaren amonyağı
+                    fark edebilir; ancak sekiz saatlik iş günü boyunca tolere edilebilir maksimum konsantrasyon 100
+                    ppm'dir. Sürekli 25 ppm maruziyeti bile hem tavuklarda hem de çalışanlarda ciddi hastalıklara zemin
+                    hazırlar.</p>
+
+                <div class="warning-banner">
+                    <span class="icon">⚠️</span>
+                    <p><strong>25 ppm'in üzerindeki amonyak konsantrasyonları;</strong> solunum yolu bozuklukları, yem
+                        tüketiminde azalma, yavaş büyüme, yumurta üretiminde düşüş, bulaşıcı hastalıklara duyarlılık
+                        artışı ve ölüm oranında yükselmeye neden olur.</p>
+                </div>
+
+                <p>Uzun süreli yüksek amonyak maruziyetine maruz kalan yumurta tavuklarında yumurta kalitesi de bozulur:
+                    albümin yüksekliği, pH değerleri ve yoğunlaşma olumsuz etkilenir. Deri, gözler ve solunum sistemi
+                    için toksik olan amonyak, bu organların hepsini tahriş edebilir.</p>
+
+                <h3>Amonyak Sensörleri: Hangi Materyaller Kullanılıyor?</h3>
+                <p>Amonyak tespitinde en çok tercih edilen sensör teknolojisi Metal Oksit Yarı İletken (MOS)
+                    sensörlerdir. Aktif malzeme olarak kullanılan başlıca bileşikler:</p>
+                <ul>
+                    <li><strong>SnO₂ (Kalay Dioksit)</strong> – Yaygın ve stabil</li>
+                    <li><strong>WO₃ (Tungsten Oksit)</strong> – Platin katkısıyla 1 ppm hassasiyeti</li>
+                    <li><strong>ZnO (Çinko Oksit)</strong> – Çeşitli morfolojilerde üretilebilir (nanoçubuk, nanotel,
+                        nanoçiçek)</li>
+                    <li><strong>PANI / Polianilin</strong> – Oda sıcaklığında çalışabilen iletken polimer</li>
+                    <li><strong>Karbon Nanotüpler (CNT)</strong> – Büyük yüzey alanı sayesinde yüksek hassasiyet</li>
+                </ul>
+
+                <div class="highlight-box blue">
+                    <strong>📊 Araştırma Eğilimi:</strong> Google Scholar verilerine göre "amonyak gaz sensörü" anahtar
+                    kelimesiyle erişilen yayın sayısı son 10 yılda sürekli artış göstermektedir. Bu artış, sensör
+                    performansını iyileştirmeye yönelik yoğun akademik ilgiyi ve alandaki yenilik potansiyelini
+                    yansıtmaktadır.
+                </div>
+
+                <p>Soy metal katkıları (Au, Pt, Pd, Ag) MOS sensörlerin hassasiyetini ve seçiciliğini artırmak için
+                    başarıyla kullanılmaktadır. Metal oksit nanokompozitler ise yüzey iletkenliğini kontrol ederek gaz
+                    algılama kapasitesini genişletir.</p>
+
+                <!-- 4. NİTRÖZ OKSİT -->
+                <h2 id="nitrozoksit">4. Nitröz Oksit (N₂O): Sera Gazı ve Ozon Tehdidi</h2>
+                <p>Nitröz oksit, kanatlı gübresi yönetim uygulamalarıyla doğrudan bağlantılıdır. Gübre ayrışması iki
+                    şekilde gerçekleşir:</p>
+                <ul>
+                    <li><strong>Aerobik ayrışma:</strong> Oksijen varlığında, nispeten kokusuz, karbondioksit ve su
+                        üretir.</li>
+                    <li><strong>Anaerobik ayrışma:</strong> Oksijen olmadan gerçekleşir; N₂O başta olmak üzere pek çok
+                        zararlı gaz ve kötü koku üretir. Sıvı gübre depolama, çukurlar ve lagünlerde baskın süreçtir.
+                    </li>
+                </ul>
+
+                <p>N₂O, troposferde uzun ömürlü bir sera gazıdır ve stratosferik ozon tabakasının incelmesine katkıda
+                    bulunur. Fotokimyasal süreçle nitrik okside (NO) dönüşen N₂O, ozon yıkımını daha da hızlandırır.</p>
+
+                <div class="highlight-box yellow">
+                    <strong>🌍 Çevresel Not:</strong> Kümes gübre yönetimini optimize etmek —katı-sıvı ayrıştırma,
+                    gelişmiş depolama uygulamaları— N₂O emisyonlarını anlamlı ölçüde azaltabilir ve küresel iklim
+                    değişikliğine katkıyı düşürebilir.
+                </div>
+
+                <!-- 5. METAN -->
+                <h2 id="metan">5. Metan (CH₄): Çevresel Sürdürülebilirlik Sorunu</h2>
+                <p>Metan, doğal gazın temel bileşenidir ve paraffin hidrokarbonlar serisinin en basit üyesidir. Renksiz
+                    ve kokusuz olan bu gaz, organik maddenin anaerobik sindiriminden oluşur.</p>
+
+                <p>BM Gıda ve Tarım Örgütü'nün (FAO) Küresel Hayvancılık Çevre Değerlendirme Modeli (GLEAM) analizine
+                    göre manür depolamadan kaynaklanan CH₄ emisyonlarının <strong>%34'ü kanatlı
+                        yetiştiriciliğinden</strong> gelmektedir. Bu oran, kümes çiftliklerinin iklim değişikliğine
+                    katkısını gözler önüne sermektedir.</p>
+
+                <p>Metanın kanatlı sağlığı üzerindeki doğrudan etkileri hakkındaki araştırmalar kısıtlıdır; ancak mevcut
+                    bulgular, yoğun metan maruziyetinin artan stres ve solunum sorunlarıyla ilişkili olduğunu ortaya
+                    koymaktadır.</p>
+
+                <div class="highlight-box green">
+                    <table class="data-table" style="margin: 0;">
+                        <thead>
+                            <tr>
+                                <th>Salım Hızı</th>
+                                <th>Bağlam</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>0,44 mg/saat/kuş</td>
+                                <td>Yaz dönemi</td>
+                            </tr>
+                            <tr>
+                                <td>1,87 mg/saat/kuş</td>
+                                <td>Kış dönemi</td>
+                            </tr>
+                            <tr>
+                                <td>13 mg/gün/kuş</td>
+                                <td>Günlük ortalama</td>
+                            </tr>
+                            <tr>
+                                <td>82,63 mg/kg·saat</td>
+                                <td>1,92 kg ortalama canlı ağırlık</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 6. KARBONDİOKSİT -->
+                <h2 id="co2">6. Karbondioksit (CO₂): Sürü Sağlığıyla Doğrudan İlişki</h2>
+                <p>CO₂, kanatlı gübredeki ürik asidin parçalanmasıyla oluşan önemli bir kümes gazıdır. Kümes içindeki
+                    CO₂ düzeyi; kuş sayısı, büyüklüğü, havalandırma oranı ve gübre yönetimine bağlı olarak değişir. Alev
+                    tipi ısıtıcılar ve düşük havalandırma uygulamaları, özellikle civciv büyütme döneminde CO₂
+                    birikimini hızlandırır.</p>
+
+                <p>Modern kümes çiftçiliğinde hedef CO₂ konsantrasyonu <strong>3.000 ppm'in altı</strong> olarak
+                    belirlenmektedir; bazı uzmanlar 5.000 ppm'i maksimum kabul edilebilir sınır olarak görmektedir.</p>
+
+                <div class="warning-banner">
+                    <span class="icon">🐔</span>
+                    <p>Yumurta tavukları 12–54 saatlik 20.000–50.000 ppm CO₂ maruziyetinde <strong>solunum güçlüğü,
+                            iştahsızlık, yumurta kabuğu incelmesi</strong> ve yumurta üretiminde düşüş sergilemiştir.
+                        (Frank & Burger, 1965; Helbacka vd., 1963)</p>
+                </div>
+
+                <p>CO₂ izlemenin önemi yalnızca kanatlı refahıyla sınırlı değildir. Karbondioksit aynı zamanda küresel
+                    ısınmanın birincil faili olan bir sera gazıdır; sera etkisinin %76'sından CO₂ sorumludur. İşletme
+                    içi yüksek CO₂ seviyeleri ise çalışanlarda baş ağrısı, yorgunluk, göz kuruluğu, uzun vadeli astım ve
+                    solunum yolu sorunlarına yol açmaktadır.</p>
+
+                <!-- 7. HİDROJEN SÜLFÜR -->
+                <h2 id="h2s">7. Hidrojen Sülfür (H₂S): Akut Zehirlenme Riski</h2>
+                <p>Hidrojen sülfür, kükürt içeren metionin ve sistein gibi amino asitlerin gübre içinde anaerobik
+                    parçalanmasından oluşur. Renksiz ve yüksek oranda yanıcı olan bu gaz, tüm hayvancılık sektörleri
+                    arasında en yüksek H₂S emisyon seviyelerine sahip sektörün kanatlı yetiştiriciliği olduğunu gösteren
+                    kanıtlar mevcuttur (≈0,33 ppm ortalama düzey).</p>
+
+                <div class="warning-banner">
+                    <span class="icon">☠️</span>
+                    <p><strong>4.000 ppm H₂S</strong> maruziyetine tabi tutulan kuşlarda solunum frekansında hızlı artış
+                        ve yalnızca <strong>15 dakika</strong> içinde ölüm gözlemlenmiştir. 12 mg/kg düzeyinde H₂S,
+                        karkas ağırlığını azaltmakta, su kaybını artırmakta ve et pH'ını yükseltmektedir.</p>
+                </div>
+
+                <h3>H₂S Emisyonlarını Azaltma Stratejileri</h3>
+                <ul>
+                    <li><strong>Yem koyuculuğu öncesi:</strong> Distilat kurutulmuş tahıl (%20'ye kadar emisyon
+                        azaltımı), yeme %0,05–%0,1 oranında klor dioksit eklenmesi</li>
+                    <li><strong>Bitkisel katkılar:</strong> Punica granatum (Nar) ekstresi ile %0,5–%1 emisyon azaltımı
+                    </li>
+                    <li><strong>İdrar sonrası:</strong> Candida, Lactobacillus, Streptococcus, Bacillus ve Clostridium
+                        türlerinden oluşan probiyotikler</li>
+                </ul>
+
+                <!-- 8. SENSÖR TEKNOLOJİLERİ -->
+                <h2 id="sensor-tek">8. Gaz Sensörü Teknolojileri: MOS Sensörlerin Üstünlüğü</h2>
+                <p>Kanatlı çiftliklerinde kullanılan farklı gaz tespit yöntemleri arasında Metal Oksit Yarı İletken
+                    (MOS) sensörler öne çıkmaktadır. Bu teknoloji, uygun maliyet, kolay üretim, mükemmel sensör yanıtı
+                    ve hızlı reaksiyon/geri kazanım süreleriyle dikkat çekmektedir.</p>
+
+                <h3>MOS Sensörlerin Çalışma Prensibi</h3>
+                <p>MOS sensörler, yüzeyde meydana gelen kimyasal adsorpsiyon ve redoks reaksiyonlarına dayalı olarak
+                    çalışır:</p>
+                <ol>
+                    <li>Metal oksit yüzeyi ortam havasındaki oksijeni adsorbe ederek iyonlar oluşturur.</li>
+                    <li>Hedef gaz bu iyonlarla tepkimeye girer; elektriksel direnç değişir.</li>
+                    <li>Direnç değişiminin büyüklüğü, hedef gazın konsantrasyonuna orantılıdır.</li>
+                </ol>
+
+                <p><strong>n-tipi sensörler</strong> (SnO₂, ZnO, In₂O₃): indirgen gazlara (NH₃, H₂S, CH₄) maruz
+                    kalıncında dirençleri azalır. <strong>p-tipi sensörler</strong> (CuO, NiO): aynı koşulda dirençleri
+                    artar. Yükseltgen gazlar (NOx) ise bu davranışı tersine çevirir.</p>
+
+                <div class="highlight-box orange">
+                    <strong>🔬 Nanoteknoloji Etkisi:</strong> Yamazoe'nin 1991'deki çalışması, kristal boyutunun
+                    küçülmesinin sensör performansını önemli ölçüde artırdığını göstermiştir. Nanosized metal oksit
+                    taneleri, yüzey alanı-hacim oranı yüksek olduğundan gaz adsorpsiyonunu ve iletkenlik değişimini
+                    büyütür. Hidrothermal, sol-jel, elektro çekme ve ALD gibi yöntemler; nanoparçacık, nanotel, nanolif
+                    ve nanoçiçek gibi çeşitli morfolojiler üretmek için başarıyla uygulanmaktadır.
+                </div>
+
+                <h3>Sensör Teknolojileri Karşılaştırması</h3>
+                <div class="highlight-box">
+                    <table class="data-table" style="margin: 0;">
+                        <thead>
+                            <tr>
+                                <th>Teknoloji</th>
+                                <th>Avantajlar</th>
+                                <th>Dezavantajlar</th>
+                                <th>Kümes Uygulaması</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>MOS</strong></td>
+                                <td>Ucuz, küçük, dayanıklı, hızlı</td>
+                                <td>Çapraz duyarlılık, nem etkisi</td>
+                                <td><span class="badge badge-green">⭐ Baskın</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Elektrokimyasal</strong></td>
+                                <td>Yüksek seçicilik, ppb seviyesi</td>
+                                <td>Pahalı, ömrü kısa</td>
+                                <td><span class="badge badge-orange">Sınırlı</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Optik / NDIR</strong></td>
+                                <td>Yüksek hassasiyet, CO₂/CH₄ için ideal</td>
+                                <td>Büyük, pahalı</td>
+                                <td><span class="badge badge-orange">Seçici</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Akustik (SAW)</strong></td>
+                                <td>Pasif, kablosuz potansiyeli</td>
+                                <td>Karmaşık üretim</td>
+                                <td><span class="badge badge-red">Araştırma</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Polimer</strong></td>
+                                <td>Oda sıcaklığında çalışır</td>
+                                <td>Yaşlanma, nem hassasiyeti</td>
+                                <td><span class="badge badge-orange">Tamamlayıcı</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 9. IoT -->
+                <h2 id="iot">9. IoT ile Entegre Çiftlik Yönetimi</h2>
+                <p>Modern kümes izleme sistemleri, çoklu sensörler, kablosuz iletişim, veri işleme ve otomatik kontrol
+                    birimleri bir araya getirerek kapsamlı çiftlik yönetimi sağlar. Ancak burada kritik bir boşluk göze
+                    çarpmaktadır:</p>
+
+                <div class="warning-banner">
+                    <span class="icon">📡</span>
+                    <p><strong>Mevcut ticari kümes IoT sistemlerinin büyük çoğunluğu yalnızca NH₃ ve CO₂ sensörü
+                            içermektedir.</strong> H₂S, N₂O ve CH₄ —kanatlı sağlığını, çalışan güvenliğini ve çevresel
+                        sürdürülebilirliği tehdit eden kritik gazlar— ticari sistemlerde neredeyse hiç izlenmemektedir.
+                    </p>
+                </div>
+
+                <h3>Günümüz IoT Kümes Sistemlerinden Örnekler</h3>
+                <div class="highlight-box">
+                    <table class="data-table" style="margin: 0;">
+                        <thead>
+                            <tr>
+                                <th>Sistem</th>
+                                <th>İzlenen Parametreler</th>
+                                <th>Protokol</th>
+                                <th>Eksik Gazlar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>WiMoCoSPH</td>
+                                <td>T, Nem, CO₂, NH₃</td>
+                                <td>Wi-Fi (HTTP)</td>
+                                <td><span class="badge badge-red">H₂S, N₂O, CH₄</span></td>
+                            </tr>
+                            <tr>
+                                <td>Smart Poultry Farm</td>
+                                <td>T, Nem, NH₃, Su</td>
+                                <td>Blynk/Wi-Fi</td>
+                                <td><span class="badge badge-red">CO₂, H₂S, N₂O, CH₄</span></td>
+                            </tr>
+                            <tr>
+                                <td>AI Tabanlı PLM</td>
+                                <td>T, Nem, NH₃, Ağırlık</td>
+                                <td>MQTT</td>
+                                <td><span class="badge badge-red">H₂S, N₂O, CH₄, CO₂</span></td>
+                            </tr>
+                            <tr>
+                                <td>Düşük Maliyetli IoT</td>
+                                <td>T, Nem, Ağırlık, Yem</td>
+                                <td>LoRa/Wi-Fi</td>
+                                <td><span class="badge badge-red">NH₃, CO₂, H₂S, N₂O, CH₄</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p>Bu tablonun ortaya koyduğu tablo nettir: MOS teknolojisi teknik olarak bu tüm gazları tespit
+                    edebilecek kapasitedededir; ancak bu kapasite ticari ürünlere henüz aktarılamamıştır.</p>
+
+                <!-- 10. GELECEK -->
+                <h2 id="geleçek">10. Gelecek: Yapay Zeka Destekli İzleme</h2>
+                <p>Kanatlı yetiştiriciliğinde IoT'nin geleceği, mevcut sistemlerin gözden kaçırdığı kritik gazları da
+                    kapsayan <strong>entegre çok-gaz sensör platformlarına</strong> dayanmaktadır. Bu platformların öne
+                    çıkan özellikleri:</p>
+
+                <ul>
+                    <li><strong>Çok-gaz izleme:</strong> NH₃ ve CO₂'nin yanı sıra H₂S, N₂O ve CH₄'ü de eş zamanlı takip
+                        etme</li>
+                    <li><strong>Düşük enerji tüketimi:</strong> Pil ömrünü uzatan uyku modu ve adaptif örnekleme</li>
+                    <li><strong>Yapay zeka ve makine öğrenmesi:</strong> <br>— Gaz karışımlarına özgü "parmak izi"
+                        çıkararak seçiciliği artırma <br>— Sıcaklık ve nem kompanzasyonu algoritmaları <br>— Akut sağlık
+                        tehlikelerini ve çevresel sonuçları önceden tahmin eden prediktif modelleme</li>
+                    <li><strong>Açık kaynaklı modüler mimari:</strong> Farklı büyüklükteki işletmelere kolayca
+                        uyarlanabilen, ölçeklenebilir tasarım</li>
+                    <li><strong>Sensör füzyonu:</strong> MOS sensör dizisinden gelen verilerin birleştirilerek güvenilir
+                        ölçüm elde edilmesi</li>
+                </ul>
+
+                <div class="highlight-box blue">
+                    <strong>🤖 Makine Öğrenmesi ve MOS Dizileri:</strong> Tekil bir MOS sensörün seçiciliği sınırlı olsa
+                    da sensör dizisinden toplanan veriler makine öğrenmesi algoritmaları ile işlendiğinde farklı gaz
+                    karışımları için özgün "kimyasal parmak izleri" oluşturulabilmektedir. Bu yaklaşım, gerçek dünya
+                    koşullarında sensör güvenilirliğini önemli ölçüde artırmaktadır.
+                </div>
+
+                <!-- 11. SONUÇ -->
+                <h2 id="sonuc">11. Sonuç</h2>
+                <p>Bu araştırma, gaz sensörlerinin çiftlik tavuklarının refahının gözetilmesinde ve güçlendirilmesinde
+                    oynadığı kritik rolü ortaya koymaktadır. Artan küresel kanatlı ürünleri talebi, hem hayvan refahını
+                    hem de çevre sağlığını koruyan sürdürülebilir uygulamaları zorunlu kılmaktadır.</p>
+
+                <p>NH₃, N₂O, CH₄, CO₂ ve H₂S gazlarının eş zamanlı ve sürekli izlenmesi artık lüks değil, zorunluluktur.
+                    Mevcut ticari IoT sistemlerinin N₂O, CH₄ ve H₂S gibi kritik gazları kaçırması önemli bir açığa
+                    işaret etmekte; bu açığın kapatılması için çok-gaz izleme platformlarına olan ihtiyaç giderek
+                    artmaktadır.</p>
+
+                <p>AI destekli, modüler tasarımlı ileri nesil gaz izleme sistemleri; çiftçilere sağlık risklerini
+                    öngörmek ve önlemek için ölçeklenebilir bir teknoloji sunmaktadır. Bu teknolojilerin benimsenmesi,
+                    kanatlı çiftliklerinde şeffaflığı artıracak, bulaşıcı hastalıkların etkin izlenmesini
+                    kolaylaştıracak ve sürdürülebilir çiftçilik uygulamalarını destekleyecektir.</p>
+
+                <div class="cta-block">
+                    <h3>🌐 Kümeslerinizde Gerçek Zamanlı Gaz İzleme</h3>
+                    <p>Esular'ın IoT sensör çözümlerini keşfedin; NH₃, CO₂ ve daha fazlasını anlık olarak takip edin.
+                    </p>
+                    <a href="AnaSayfa.html" class="cta-btn"><i class="fas fa-arrow-right"></i> Çözümlerimizi
+                        İnceleyin</a>
+                </div>
+
+                <div class="source-cite">
+                    <strong>📖 Kaynak:</strong> Bu makale, Abbas, I.e. & Comini, E. (2025). <em>Gas Sensing for Poultry
+                        Farm Air Quality Monitoring to Enhance Welfare and Sustainability.</em> Chemosensors, 13, 347.
+                    <a href="https://doi.org/10.3390/chemosensors13090347" target="_blank"
+                        rel="noopener">https://doi.org/10.3390/chemosensors13090347</a> adlı açık erişimli akademik
+                    makaleden uyarlanarak Türkçeye aktarılmış ve Esular okuyucuları için yeniden düzenlenmiştir. © 2025
+                    Authors. CC BY 4.0.
+                </div>
+            </div>
+        </article>
+
+        <!-- Yorumlar -->
+        <div
+            style="background: var(--white); border-radius: 20px; padding: 40px; box-shadow: var(--shadow-md); margin-bottom: 80px; margin-top: 24px;">
+            <h3 style="color: var(--gray-900); margin-bottom: 30px;">Yorumlar</h3>
+            <div id="disqus_thread"></div>
+            <script>
+                var disqus_config = function () {
+                    this.page.url = window.location.href;
+                    this.page.identifier = window.location.pathname;
+                };
+                (function () {
+                    var d = document, s = d.createElement('script');
+                    s.src = 'https://esular-blog.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Lütfen yorumları görüntülemek için JavaScript'i etkinleştirin. <a
+                    href="https://disqus.com/?ref_noscript">Disqus tarafından sağlanan yorumlar.</a></noscript>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2026 Esular — Tüm hakları saklıdır.</p>
+    </footer>
+</body>
+
+</html>

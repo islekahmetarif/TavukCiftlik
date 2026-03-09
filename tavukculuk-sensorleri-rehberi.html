@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="tr" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tavukçulukta Kullanılan Sensörler: Dijital Dönüşüm Kılavuzu | Esular Blog</title>
+    <style>
+        :root {
+            --esular-orange: #f24726;
+            --esular-orange-dark: #d93d1f;
+            --white: #fff;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-600: #4b5563;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --font-primary: 'Poppins', sans-serif;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: var(--font-primary);
+            line-height: 1.7;
+            color: var(--gray-800);
+            background: var(--gray-50);
+            margin: 0;
+        }
+
+        .header {
+            background: var(--white);
+            box-shadow: var(--shadow-sm);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .blog-hero-section {
+            background: #2b2a35;
+            color: var(--white);
+            padding: 80px 0 60px;
+            text-align: center;
+        }
+
+        .blog-hero-section h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin-bottom: 24px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.2;
+        }
+
+        .blog-meta {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .blog-meta span {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .main-container {
+            max-width: 900px;
+            margin: -40px auto 80px;
+            padding: 0 20px;
+        }
+
+        .article-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--esular-orange);
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 30px;
+            transition: transform 0.2s;
+        }
+
+        .back-link:hover {
+            transform: translateX(-5px);
+        }
+
+        /* TOC Structure */
+        .toc-box {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 40px;
+            border-left: 4px solid var(--esular-orange);
+        }
+
+        .toc-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--gray-900);
+        }
+
+        .toc-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+        }
+
+        .toc-list a {
+            text-decoration: none;
+            color: var(--gray-600);
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .toc-list a:hover {
+            color: var(--esular-orange);
+        }
+
+        .content h2 {
+            font-size: 1.8rem;
+            color: var(--gray-900);
+            margin-top: 50px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--gray-100);
+        }
+
+        .content h3 {
+            color: var(--gray-900);
+            margin-top: 30px;
+        }
+
+        .content p {
+            margin-bottom: 24px;
+            color: var(--gray-600);
+            font-size: 1.05rem;
+        }
+
+        .highlight-box {
+            background: #f9fafb;
+            border: 1px solid var(--gray-200);
+            border-radius: 16px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        @media (max-width: 768px) {
+            .article-card {
+                padding: 30px;
+            }
+
+            .blog-hero-section {
+                padding: 60px 0 40px;
+            }
+
+            .blog-meta {
+                flex-direction: column;
+                gap: 10px;
+                align-items: center;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+            <a href="AnaSayfa.html"><img src="https://esular.com/images/logo.png" alt="Esular" width="120"></a>
+            <nav><a href="blog.html" style="text-decoration:none; color:var(--gray-800);">Blog'a Geri Dön</a></nav>
+        </div>
+    </header>
+
+    <header class="header">
+        <div class="nav-container">
+            <a href="AnaSayfa.html"><img src="https://esular.com/images/logo.png" alt="Esular" width="120"></a>
+            <nav><a href="blog.html" class="back-link" style="margin-bottom:0;"><i class="fas fa-th-large"></i> Blog</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="blog-hero-section">
+        <div class="container">
+            <h1>Tavukçulukta Kullanılan Sensörler: Dijital Dönüşümün Sinir Sistemi</h1>
+            <div class="blog-meta">
+                <span><i class="far fa-calendar-alt"></i> 18 Şubat 2026</span>
+                <span><i class="far fa-user"></i> Esular Akademi</span>
+                <span><i class="far fa-eye"></i> 3250 Görüntülenme</span>
+            </div>
+        </div>
+    </section>
+
+    <main class="main-container">
+        <article class="article-card">
+            <a href="blog.html" class="back-link"><i class="fas fa-arrow-left"></i> Tüm Yazılar</a>
+
+            <div class="toc-box">
+                <div class="toc-title"><i class="fas fa-list-ul"></i> İçindekiler</div>
+                <nav class="toc-list">
+                    <a href="#giris">1. Giriş: Sensörler Neden Kümesin Sinir Sistemidir?</a>
+                    <a href="#gaz-sensorleri">2. Gaz Sensörleri: Amonyak ve Karbondioksit Yönetimi</a>
+                    <a href="#iklim-sensorleri">3. İklim Sensörleri: Sıcaklık ve Nem Dengesi</a>
+                    <a href="#lojistik-sensorleri">4. Lojistik Sensörleri: Silo ve Yem Takibi</a>
+                    <a href="#hidrolik-sensorleri">5. Hidrolik Sensörler: Su Tüketimi ve Debimetreler</a>
+                    <a href="#mekanik-sensorler">6. Mekanik Sensörler: Statik Basınç ve Hava Akışı</a>
+                    <a href="#sonuc">7. Sonuç: Veri Odaklı Karlılık</a>
+                </nav>
+            </div>
+
+            <div class="content">
+                <h2 id="giris">1. Giriş: Sensörler Neden Kümesin Sinir Sistemidir?</h2>
+                <p>Modern tavukçulukta başarı artık saniyelerle ve milimetrik verilerle ölçülüyor. Sensörler, bir
+                    kümesin görünmez sinir sistemidir; dışarıdan fark edilemeyen değişimleri anında algılayarak sistemin
+                    doğru tepki vermesini sağlarlar. İnsan duyguları 25 ppm amonyağı fark ettiğinde, sürü çoktan verim
+                    kaybı yaşamış olabilir. Esular ekosistemi, bu riskleri oluşmadan önlemek için tasarlanmıştır.</p>
+
+                <h2 id="gaz-sensorleri">2. Gaz Sensörleri: Amonyak ve Karbondioksit Yönetimi</h2>
+                <p>Kümes içi hava kalitesini belirleyen temel unsurlar Amonyak (NH3) ve Karbondioksit (CO2) gazlarıdır.
+                    Amonyak, solunum yollarını tahriş ederek bağışıklığı düşürürken, yüksek CO2 oksijen seviyesini
+                    azaltarak asit (ascites) riskini artırır.</p>
+                <div class="highlight-box">
+                    <p><strong>Detaylı Bilgi:</strong> <a href="amonyak-nh3-sensoru-nedir.html">Amonyak Sensörü
+                            Nedir?</a> ve <a href="co2-hava-kalitesi-sensoru.html">CO2 Sensör Teknolojisi</a>
+                        makalelerimizi inceleyebilirsiniz.</p>
+                </div>
+
+                <h2 id="iklim-sensorleri">3. İklim Sensörleri: Sıcaklık ve Nem Dengesi</h2>
+                <p>Tavuklar termoregülasyon yetenekleri sınırlı canlılardır. Hassas sıcaklık ve nem sensörleri, THI
+                    (Sıcaklık Nem İndeksi) değerlerini hesaplayarak sürünün konfor alanında kalmasını sağlar. Esular nem
+                    sensörleri, evaporatif soğutma ve havalandırma döngülerini milimetrik olarak yönetir.</p>
+
+                <h2 id="lojistik-sensorleri">4. Lojistik Sensörleri: Silo ve Yem Takibi</h2>
+                <p>Yem yönetimi, bir işletmenin en büyük maliyet kalemidir. Silo ayaklarına yerleştirilen Load Cell (yük
+                    hücresi) sensörleri, yem ağırlığını gram hassasiyetinde ölçer. Bu sayede yem fabrikası ile lojistik
+                    planlaması mükemmel şekilde yapılır ve yem bayatlamasının önüne geçilir.</p>
+                <div class="highlight-box">
+                    <p><strong>Uygulama Rehberi:</strong> <a href="silo-yem-takip-sensoru.html">Silo Yem Takibi ve Stok
+                            Yönetimi</a>.</p>
+                </div>
+
+                <h2 id="hidrolik-sensorleri">5. Hidrolik Sensörler: Su Tüketimi ve Debimetreler</h2>
+                <p>Su tüketimindeki ani bir değişim, genellikle bir hastalığın ilk belirtisidir. Dijital debimetreler,
+                    su akış hızını anlık izleyerek olası bir sızıntı veya sürü sağlığı sorununda erken uyarı sistemi
+                    görevi görür.</p>
+                <div class="highlight-box">
+                    <p><strong>Teknik Detay:</strong> <a href="su-akis-sensoru-kullanim-amaci.html">Su Akış Sensörü ve
+                            Kullanım Amaçları</a>.</p>
+                </div>
+
+                <h2 id="mekanik-sensorler">6. Mekanik Sensörler: Statik Basınç ve Hava Akışı</h2>
+                <p>Kümes içinde homojen hava dağılımı için statik basıncın dengelenmesi gerekir. Statik basınç
+                    sensörleri, klape (inlet) açıklıklarını anlık olarak güncelleyerek havanın doğrudan kuşların üzerine
+                    düşmesini engeller ve taze havanın her noktaya ulaşmasını sağlar.</p>
+
+
+                <h2 id="sonuc">7. Sonuç: Veri Odaklı Karlılık</h2>
+                <p>Esular sensör ağı, birbirine bağlı bir ekosistem olarak çalışır. Veri odaklı bir yönetim modeli
+                    benimsemek, sadece verimi artırmakla kalmaz, aynı zamanda operasyonel riskleri minimize ederek
+                    huzurlu ve sürdürülebilir bir üretim modelini mümkün kılar.</p>
+            </div>
+        </article>
+
+        <!-- Yorumlar Bölümü -->
+        <div
+            style="background: var(--white); border-radius: 30px; padding: 40px; box-shadow: var(--shadow); margin-bottom: 80px;">
+            <h3 style="color: var(--gray-900); margin-bottom: 30px;">Yorumlar</h3>
+            <div id="disqus_thread"></div>
+            <script>
+                var disqus_config = function () {
+                    this.page.url = window.location.href;
+                    this.page.identifier = window.location.pathname;
+                };
+                (function () {
+                    var d = document, s = d.createElement('script');
+                    s.src = 'https://esular-blog.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Lütfen yorumları görüntülemek için JavaScript'i etkinleştirin. <a
+                    href="https://disqus.com/?ref_noscript">Disqus tarafından sağlanan yorumlar.</a></noscript>
+        </div>
+        </div>
+
+        <footer style="background: var(--gray-900); color: #fff; padding: 40px 0; text-align: center;">
+            <p>&copy; 2026 Esular</p>
+        </footer>
+</body>
+
+</html>

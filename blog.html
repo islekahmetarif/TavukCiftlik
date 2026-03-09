@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="tr" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1">
+
+    <!-- Elite SEO Meta Tags -->
+    <title>Blog - Akıllı Tarım ve Tavukçuluk Rehberi | Esular</title>
+    <meta name="description"
+        content="Akıllı tarım, kümes hayvancılığı, sulama teknolojileri ve tarımsal otomasyon hakkında uzman makaleleri ve güncel rehberler.">
+    <meta name="keywords"
+        content="akıllı tarım blog, tavukçuluk rehberi, sera otomasyonu blog, co2 sensörü rehberi, esular blog">
+    <meta name="author" content="Esular">
+    <meta name="robots" content="index, follow">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png?v=3.0">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon.png?v=3.0">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon.png?v=3.0">
+    <link rel="shortcut icon" href="/favicon.png?v=3.0" type="image/png">
+    <meta name="theme-color" content="#f24726">
+
+    <!-- CRITICAL CSS INLINE -->
+    <style>
+        @font-face {
+            font-family: 'Poppins';
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: url('/fonts/poppins-400.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'Poppins';
+            font-style: normal;
+            font-weight: 600;
+            font-display: swap;
+            src: url('/fonts/poppins-600.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'Poppins';
+            font-style: normal;
+            font-weight: 700;
+            font-display: swap;
+            src: url('/fonts/poppins-700.woff2') format('woff2');
+        }
+
+        :root {
+            --esular-orange: #f24726;
+            --esular-orange-dark: #d93d1f;
+            --esular-blue: #6ABDE6;
+            --white: #fff;
+            --gray-100: #f8f9fa;
+            --gray-200: #e9ecef;
+            --gray-600: #706e81;
+            --gray-800: #41404e;
+            --gray-900: #2b2a35;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-primary: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--gray-800);
+            background: var(--gray-100);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: var(--white);
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+            z-index: 1000;
+            padding: 12px 0;
+        }
+
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-logo img {
+            display: block;
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .header-nav a {
+            color: var(--gray-800);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9375rem;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .header-nav a:hover,
+        .header-nav a.active {
+            color: var(--esular-orange);
+        }
+
+        .header-nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--esular-orange);
+            border-radius: 2px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .btn-store {
+            background: transparent;
+            color: var(--esular-orange);
+            border: 2px solid var(--esular-orange);
+            padding: 10px 24px;
+            font-size: 0.9375rem;
+            border-radius: 100px;
+            font-weight: 600;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+        }
+
+        .btn-store:hover {
+            background: var(--esular-orange);
+            color: white;
+        }
+
+        .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--gray-800);
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .btn-store:hover {
+            background: var(--esular-orange);
+            color: var(--white);
+        }
+
+        /* Hero Area */
+        .page-hero {
+            background: linear-gradient(135deg, #f24726 0%, #ff8a65 100%);
+            padding: 160px 0 80px;
+            color: white;
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .page-hero h1 {
+            font-size: clamp(3rem, 6vw, 4.5rem);
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .page-hero p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Blog Grid */
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 100px;
+        }
+
+        .blog-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .blog-image {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+
+        .blog-content {
+            padding: 30px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .blog-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 16px;
+            line-height: 1.4;
+        }
+
+        .blog-excerpt {
+            color: var(--gray-600);
+            font-size: 0.9375rem;
+            margin-bottom: 24px;
+            line-height: 1.6;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .blog-meta {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 20px;
+            border-top: 1px solid var(--gray-100);
+            font-size: 0.8125rem;
+            color: var(--gray-600);
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--gray-900);
+            color: var(--white);
+            padding: 80px 0 40px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        @media (max-width: 991px) {
+            .blog-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .header-nav {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: white;
+                flex-direction: column;
+                padding: 20px;
+                gap: 20px;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            }
+
+            .header-nav.active {
+                display: flex;
+            }
+
+            .hamburger {
+                display: block;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .page-hero h1 {
+                font-size: 3rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="/css/fontawesome.min.css">
+    <link rel="canonical" href="https://esular.com/blog" />
+</head>
+
+<body>
+
+    <header class="header" id="header">
+        <div class="container container-nav">
+            <div class="header-container">
+                <a href="AnaSayfa.html" class="header-logo">
+                    <img src="https://esular.com/images/logo.png" alt="Esular Logo" width="120" height="44"
+                        loading="eager">
+                </a>
+                <nav class="header-nav" id="header-nav">
+                    <a href="AnaSayfa.html">Ana Sayfa</a>
+                    <a href="AnaSayfa.html#solutions">Çözümler</a>
+                    <a href="blog.html" class="active">Blog</a>
+                    <a href="AnaSayfa.html#contact">İletişim</a>
+                </nav>
+                <div class="header-actions">
+                    <a href="https://store.esular.com/" class="btn btn-store" target="_blank">
+                        <i class="fas fa-shopping-cart"></i> Store
+                    </a>
+                    <button class="hamburger" id="hamburger-btn" aria-label="Menüyü Aç">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Hero -->
+    <section class="page-hero">
+        <div class="container">
+            <h1>Blog</h1>
+            <p>Akıllı çiftlik teknolojileri ve sensör destekli çözümler hakkında en güncel yazılar.</p>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section class="blog-section">
+        <div class="container">
+            <div class="blog-grid">
+
+                <!-- Article 1: Poultry Growth -->
+                <a href="tavuk-gelisimi-42-gun.html" style="text-decoration: none; color: inherit;">
+                    <article class="blog-card">
+                        <img src="https://ninovatavukculuk.com/wp-content/uploads/2022/10/Ataks-Tavuk.jpg"
+                            alt="Tavuk Gelişimi" class="blog-image">
+                        <div class="blog-content">
+                            <h2 class="blog-title">Tavuk Gelişiminde Kritik 42 Gün</h2>
+                            <p class="blog-excerpt">Broyler üretiminde başarının anahtarı ilk 7 gündür. İlk hafta
+                                ağırlık artışı ve Esular ile mortalite düşürme stratejilerini teknik verilerle
+                                inceleyin.</p>
+                            <div
+                                style="display: flex; justify-content: space-between; align-items: center; margin-top: auto;">
+                                <span style="color: var(--esular-orange); font-weight: 600; font-size: 0.9rem;">Devamını
+                                    Oku &rarr;</span>
+                                <div class="blog-meta" style="border: none; padding: 0; margin: 0;">
+                                    <span class="meta-item"><i class="far fa-calendar-alt"></i> 17 Şub 2026</span>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </a>
+
+                <!-- Article 2: Climate Control -->
+                <a href="kumes-iklimlendirme-onemi.html" style="text-decoration: none; color: inherit;">
+                    <article class="blog-card">
+                        <img src="https://imgrosetta.mynet.com.tr/file/19174751/19174751-860x480.jpg"
+                            alt="Kümes İklimlendirme" class="blog-image">
+                        <div class="blog-content">
+                            <h2 class="blog-title">Tavuk Kümeslerinde İklimlendirmenin Hayati Önemi</h2>
+                            <p class="blog-excerpt">Isı stresi THI indeksi ile nasıl yönetilir? Tünel havalandırma ve
+                                wind-chill etkisinin süratle uygulanması üzerine teknik analizimiz.</p>
+                            <div
+                                style="display: flex; justify-content: space-between; align-items: center; margin-top: auto;">
+                                <span style="color: var(--esular-orange); font-weight: 600; font-size: 0.9rem;">Devamını
+                                    Oku &rarr;</span>
+                                <div class="blog-meta" style="border: none; padding: 0; margin: 0;">
+                                    <span class="meta-item"><i class="far fa-calendar-alt"></i> 16 Şub 2026</span>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </a>
+
+
+
+                <!-- Article 4: Air Quality -->
+                <a href="kumes-hava-kalitesi-amonyak-nem.html" style="text-decoration: none; color: inherit;">
+                    <article class="blog-card">
+                        <img src="https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?auto=format&fit=crop&w=800&q=80"
+                            alt="Kümes Hava Kalitesi" class="blog-image">
+                        <div class="blog-content">
+                            <h2 class="blog-title">Kümeslerde Hava Kalitesi</h2>
+                            <p class="blog-excerpt">Görünmez tehlike Amonyak (NH3) 10 ppm altında nasıl tutulur? Hassas
+                                sensörler, proaktif havalandırma yöntemleri ve biyogüvenlik eşikleri.</p>
+                            <div
+                                style="display: flex; justify-content: space-between; align-items: center; margin-top: auto;">
+                                <span style="color: var(--esular-orange); font-weight: 600; font-size: 0.9rem;">Devamını
+                                    Oku &rarr;</span>
+                                <div class="blog-meta" style="border: none; padding: 0; margin: 0;">
+                                    <span class="meta-item"><i class="far fa-calendar-alt"></i> 14 Şub 2026</span>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </a>
+
+                <!-- Article 5: Research Study 1 -->
+                <a href="arastirma-hava-akis-hizi-verim.html" style="text-decoration: none; color: inherit;">
+                    <article class="blog-card">
+                        <img src="https://isbh.tmgrup.com.tr/sbh/2021/06/13/650x344/erzincan-gul-celal-toraman-mesleki-ve-teknik-anado-1623578438234.jpg"
+                            alt="Bilimsel Araştırma" class="blog-image">
+                        <div class="blog-content">
+                            <h2 class="blog-title">Kümes Hava Akış Hızının Broyler Ağırlık Artışına Etkisi
+                            </h2>
+                            <p class="blog-excerpt">Poultry Science çalışması analizi: Hava hızındaki 1 m/s artışın
+                                canlı ağırlığa %8.4 katkısı. Bilimsel verilerin dijital otomasyona entegrasyonu.</p>
+                            <div
+                                style="display: flex; justify-content: space-between; align-items: center; margin-top: auto;">
+                                <span style="color: var(--esular-orange); font-weight: 600; font-size: 0.9rem;">Analizi
+                                    Oku &rarr;</span>
+                                <div class="blog-meta" style="border: none; padding: 0; padding: 0; margin: 0;">
+                                    <span class="meta-item"><i class="far fa-calendar-alt"></i> 10 Şub 2026</span>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </a>
+
+                <!-- Article 6: Research Study 2 -->
+                <a href="arastirma-amonyak-ve-goz-sagligi.html" style="text-decoration: none; color: inherit;">
+                    <article class="blog-card">
+                        <img src="https://i.redd.it/help-what-is-wrong-with-my-chickens-eye-v0-2618jttimaxe1.jpg?width=4080&format=pjpg&auto=webp&s=3555861f4c8f4df3e213f29f79464000a0a04c85"
+                            alt="Amonyak Araştırması" class="blog-image">
+                        <div class="blog-content">
+                            <h2 class="blog-title">Amonyak Seviyeleri ve Göz Lezyonları Arasındaki Korelasyon</h2>
+                            <p class="blog-excerpt">25 ppm amonyak maruziyetinin bağışıklık yanıtındaki %35 düşüşe ve
+                                aşılama başarısızlığına etkisi. Bilimsel veriler ve Esular çözümleri.</p>
+                            <div
+                                style="display: flex; justify-content: space-between; align-items: center; margin-top: auto;">
+                                <span style="color: var(--esular-orange); font-weight: 600; font-size: 0.9rem;">Analizi
+                                    Oku &rarr;</span>
+                                <div class="blog-meta" style="border: none; padding: 0; margin: 0;">
+                                    <span class="meta-item"><i class="far fa-calendar-alt"></i> 05 Şub 2026</span>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </a>
+
+                <!-- New Article 7: Sensor Guide -->
+                <a href="tavukculuk-sensorleri-rehberi.html" style="text-decoration: none; color: inherit;">
+                    <article class="blog-card">
+                        <img src="https://ak-farm.com/wp-content/uploads/2021/09/tavsanimg800.jpg" alt="Sensör Rehberi"
+                            class="blog-image">
+                        <div class="blog-content">
+                            <h2 class="blog-title">Tavukçulukta Dijital Dönüşüm </h2>
+                            <p class="blog-excerpt">Modern kümeslerin sinir sistemi: Sensörler. Esular sensör
+                                ekosistemine genel bakış ve avantajları.</p>
+                            <div
+                                style="display: flex; justify-content: space-between; align-items: center; margin-top: auto;">
+                                <span style="color: var(--esular-orange); font-weight: 600; font-size: 0.9rem;">Kılavuzu
+                                    Oku &rarr;</span>
+                                <div class="blog-meta" style="border: none; padding: 0; margin: 0;">
+                                    <span class="meta-item"><i class="far fa-calendar-alt"></i> 01 Şub 2026</span>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </a>
+
+                <!-- New Article 8: Ammonia Sensor -->
+                <a href="amonyak-nh3-sensoru-nedir.html" style="text-decoration: none; color: inherit;">
+                    <article class="blog-card">
+                        <img src="https://www.pakronics.com.au/cdn/shop/products/SEN0469-detail-004.jpg?v=1649564850"
+                            alt="Amonyak Sensörü" class="blog-image">
+                        <div class="blog-content">
+                            <h2 class="blog-title">Amonyak (NH3) Sensörü Nedir?</h2>
+                            <p class="blog-excerpt">Elektrokimyasal ölçüm teknolojisi ile amonyak tespiti ve
+                                havalandırma algoritması üzerindeki kritik rolü.</p>
+                            <div
+                                style="display: flex; justify-content: space-between; align-items: center; margin-top: auto;">
+                                <span style="color: var(--esular-orange); font-weight: 600; font-size: 0.9rem;">Tekniği
+                                    İncele &rarr;</span>
+                                <div class="blog-meta" style="border: none; padding: 0; margin: 0;">
+                                    <span class="meta-item"><i class="far fa-calendar-alt"></i> 28 Oca 2026</span>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </a>
+
+                <!-- New Article 9: CO2 Sensor -->
+                <a href="co2-hava-kalitesi-sensoru.html" style="text-decoration: none; color: inherit;">
+                    <article class="blog-card">
+                        <img src="https://dfimg.dfrobot.com/nobody/wiki/2a623c68081bf0c8cb86fd5518928d33.jpg"
+                            alt="CO2 Sensörü" class="blog-image">
+                        <div class="blog-content">
+                            <h2 class="blog-title">CO2 Sensörü ve Karbondioksit Yönetimi</h2>
+                            <p class="blog-excerpt">Kızılötesi (NDIR) ışık emilimi ile hassas CO2 ölçümü ve oksijen
+                                dengesi için dijital çözümler.</p>
+                            <div
+                                style="display: flex; justify-content: space-between; align-items: center; margin-top: auto;">
+                                <span style="color: var(--esular-orange); font-weight: 600; font-size: 0.9rem;">Tekniği
+                                    İncele &rarr;</span>
+                                <div class="blog-meta" style="border: none; padding: 0; margin: 0;">
+                                    <span class="meta-item"><i class="far fa-calendar-alt"></i> 25 Oca 2026</span>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </a>
+
+                <!-- New Article 10: Silo Sensor -->
+                <a href="silo-yem-takip-sensoru.html" style="text-decoration: none; color: inherit;">
+                    <article class="blog-card">
+                        <img src="https://thumbs.dreamstime.com/b/industry-smart-silo-digital-twin-technology-holographic-projection-industrial-silos-showcases-concept-digital-twin-414469527.jpg"
+                            alt="SiloTakip" class="blog-image">
+                        <div class="blog-content">
+                            <h2 class="blog-title">Silo Yem Takibi</h2>
+                            <p class="blog-excerpt">Yem silolarında tonlarca ağırlığı gram hassasiyetinde ölçen Load
+                                Cell teknolojisi ve tüketim analizi.</p>
+                            <div
+                                style="display: flex; justify-content: space-between; align-items: center; margin-top: auto;">
+                                <span style="color: var(--esular-orange); font-weight: 600; font-size: 0.9rem;">Tekniği
+                                    İncele &rarr;</span>
+                                <div class="blog-meta" style="border: none; padding: 0; margin: 0;">
+                                    <span class="meta-item"><i class="far fa-calendar-alt"></i> 20 Oca 2026</span>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </a>
+
+                <!-- New Article 11: Water Flow -->
+                <a href="su-akis-sensoru-kullanim-amaci.html" style="text-decoration: none; color: inherit;">
+                    <article class="blog-card">
+                        <img src="https://aycemak.com.tr/izinver/big/20191128__9453088641.jpg" alt="Su Takibi"
+                            class="blog-image">
+                        <div class="blog-content">
+                            <h2 class="blog-title">Dijital Su Akış Sensörleri</h2>
+                            <p class="blog-excerpt">Darbe (pulse) metodu ile su tüketim takibi ve hastalık teşhisindeki
+                                kritik önemine dair teknik analiz.</p>
+                            <div
+                                style="display: flex; justify-content: space-between; align-items: center; margin-top: auto;">
+                                <span
+                                    style="color: var(--esular-orange); font-weight: 600; font-size: 0.9rem;">Detayları
+                                    Oku &rarr;</span>
+                                <div class="blog-meta" style="border: none; padding: 0; margin: 0;">
+                                    <span class="meta-item"><i class="far fa-calendar-alt"></i> 15 Oca 2026</span>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </a>
+
+                <!-- New Article 12: Static Pressure -->
+
+                <!-- Article 14: MOS Sensor Performance -->
+                <a href="mos-sensor-performans-karsilastirma.html" style="text-decoration: none; color: inherit;">
+                    <article class="blog-card">
+                        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80"
+                            alt="MOS Sensör Performans" class="blog-image">
+                        <div class="blog-content">
+                            <h2 class="blog-title">Metal Oksit Sensörlerle Kümes Gazı Tespiti: Performans Rehberi</h2>
+                            <p class="blog-excerpt">SnO₂, ZnO, WO₃ sensörlerinin NH₃, H₂S, CO₂, CH₄ ve N₂O
+                                dedeksiyonundaki performans tabloları, eşik değerler ve çiftçi için pratik eylem planı.
+                            </p>
+                            <div
+                                style="display: flex; justify-content: space-between; align-items: center; margin-top: auto;">
+                                <span style="color: var(--esular-orange); font-weight: 600; font-size: 0.9rem;">Tekniği
+                                    İncele &rarr;</span>
+                                <div class="blog-meta" style="border: none; padding: 0; margin: 0;">
+                                    <span class="meta-item"><i class="far fa-calendar-alt"></i> 23 Şub 2026</span>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </a>
+
+                <!-- Article 13: Gas Sensing Academic Review -->
+                <a href="kumes-gaz-sensor-hava-izleme.html" style="text-decoration: none; color: inherit;">
+                    <article class="blog-card">
+                        <img src="https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=800&q=80"
+                            alt="Gaz Sensörleri" class="blog-image">
+                        <div class="blog-content">
+                            <h2 class="blog-title">Kümes Çiftliklerinde Gaz Sensörleri ile Hava Kalitesi İzleme</h2>
+                            <p class="blog-excerpt">NH3, CO2, CH4, H2S ve N2O gazlarının tavuk refahına etkileri ve MOS
+                                sensörlerle IoT tabanlı çok-gaz izleme sistemleri. Chemosensors 2025 akademik
+                                makalesinden.</p>
+                            <div
+                                style="display: flex; justify-content: space-between; align-items: center; margin-top: auto;">
+                                <span style="color: var(--esular-orange); font-weight: 600; font-size: 0.9rem;">Makaleyi
+                                    Oku &rarr;</span>
+                                <div class="blog-meta" style="border: none; padding: 0; margin: 0;">
+                                    <span class="meta-item"><i class="far fa-calendar-alt"></i> 23 Şub 2026</span>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </a>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <img src="https://esular.com/images/logo.png" alt="Esular" width="120" height="40"
+                        style="margin-bottom: 20px; filter: brightness(0) invert(1);">
+                    <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Akıllı tarım teknolojileri ile geleceğe
+                        yön veriyoruz.</p>
+                </div>
+                <div class="footer-column">
+                    <h4 style="margin-bottom: 20px;">Hızlı Linkler</h4>
+                    <p><a href="AnaSayfa.html" style="color: rgba(255,255,255,0.7); text-decoration: none;">Ürünler</a>
+                    </p>
+                    <p><a href="AnaSayfa.html#solutions"
+                            style="color: rgba(255,255,255,0.7); text-decoration: none;">Çözümler</a></p>
+                </div>
+                <!-- ... other columns ... -->
+            </div>
+            <div
+                style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 30px; text-align: center; color: rgba(255,255,255,0.5); font-size: 0.8rem;">
+                &copy; 2025 Esular. Tüm hakları saklıdır.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Hamburger Menu Toggle
+        const hamburgerBtn = document.getElementById('hamburger-btn');
+        const headerNav = document.getElementById('header-nav');
+
+        hamburgerBtn.addEventListener('click', () => {
+            headerNav.classList.toggle('active');
+            const icon = hamburgerBtn.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+
+        // Close menu when clicking links
+        document.querySelectorAll('.header-nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                headerNav.classList.remove('active');
+                const icon = hamburgerBtn.querySelector('i');
+                icon.classList.add('fa-bars');
+                icon.classList.remove('fa-times');
+            });
+        });
+    </script>
+</body>
+
+</html>

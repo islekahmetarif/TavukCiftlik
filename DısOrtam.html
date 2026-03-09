@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="tr" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1">
+
+    <!-- Elite SEO Meta Tags -->
+    <title>Tavuk Çiftliği Meteoroloji İstasyonu | Dış Ortam İzleme Sistemi</title>
+    <meta name="description"
+        content="Çiftlik dış ortam koşullarını profesyonel LoRaWAN iklim istasyonu ile izleyin. Rüzgar, yağış ve sıcaklık verileriyle kümes havalandırmasını ve biyogüvenliği optimize edin.">
+    <meta name="keywords"
+        content="çiftlik meteoroloji istasyonu, kümes iklim istasyonu, rüzgar yönü sensörü, yağış takibi tarım, dış ortam sıcaklık sensörü, esular iklim istasyonu">
+    <meta name="author" content="Esular">
+    <meta name="robots" content="index, follow">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png?v=3.0">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon.png?v=3.0">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon.png?v=3.0">
+    <link rel="shortcut icon" href="/favicon.png?v=3.0" type="image/png">
+    <meta name="theme-color" content="#f24726">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @font-face {
+            font-family: 'Poppins';
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: url('fonts/poppins-400.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'Poppins';
+            font-style: normal;
+            font-weight: 600;
+            font-display: swap;
+            src: url('fonts/poppins-600.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'Poppins';
+            font-style: normal;
+            font-weight: 700;
+            font-display: swap;
+            src: url('fonts/poppins-700.woff2') format('woff2');
+        }
+
+        :root {
+            --esular-orange: #f24726;
+            --esular-orange-dark: #d93d1f;
+            --esular-blue: #6ABDE6;
+            --white: #fff;
+            --gray-100: #f8f9fa;
+            --gray-600: #706e81;
+            --gray-800: #41404e;
+            --gray-900: #2b2a35;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --border-radius: 12px;
+            --border-radius-lg: 24px;
+            --font-primary: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--gray-800);
+            background: var(--white);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: var(--white);
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+            z-index: 1000;
+            padding: 12px 0;
+        }
+
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-logo img {
+            display: block;
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .header-nav a {
+            color: var(--gray-800);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9375rem;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .header-nav a:hover,
+        .header-nav a.active {
+            color: var(--esular-orange);
+        }
+
+        .header-nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--esular-orange);
+            border-radius: 2px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--esular-orange);
+            border: 2px solid var(--esular-orange);
+            padding: 10px 24px;
+            font-size: 0.9375rem;
+            border-radius: 100px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .btn-outline:hover {
+            background: var(--esular-orange);
+            color: white;
+        }
+
+        .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--gray-800);
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .parameters-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+
+        @media (max-width: 991px) {
+            .header {
+                background: white !important;
+                z-index: 10000 !important;
+            }
+
+            .parameters-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .parameters-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .parameters-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+
+        @media (max-width: 991px) {
+            .parameters-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .parameters-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--esular-orange);
+            border: 2px solid var(--esular-orange);
+            padding: 10px 24px;
+            font-size: 0.9375rem;
+        }
+
+        .btn-outline:hover {
+            background: var(--esular-orange);
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(242, 71, 38, 0.3);
+        }
+
+        /* Footer Styles */
+        .footer {
+            background: var(--gray-900);
+            color: var(--white);
+            padding: 60px 0 24px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer a {
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer a:hover {
+            color: var(--esular-orange);
+        }
+
+        @media (max-width: 768px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+        }
+
+        .section {
+            padding: 120px 0;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-weight: 700;
+            line-height: 1.1;
+            color: var(--gray-900);
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 1.5rem;
+        }
+
+        h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: 1rem;
+        }
+
+        h3 {
+            font-size: clamp(1.5rem, 3vw, 2rem);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 36px;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 100px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--esular-orange) 0%, var(--esular-orange-dark) 100%);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(242, 71, 38, 0.3);
+        }
+
+        .btn-white:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 255, 255, 0.3);
+        }
+
+        /* HERO STATS GRID */
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 30px;
+            margin-bottom: 48px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .stat-card {
+            padding: 24px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        /* MOBILE OPTIMIZATION ENHANCEMENTS */
+        @media (max-width: 991px) {
+            .header-container {
+                flex-direction: row;
+                justify-content: space-between;
+                padding: 10px 20px;
+            }
+
+            .header-nav {
+                display: none;
+            }
+
+            .hero {
+                padding-top: 140px !important;
+                padding-bottom: 80px;
+                text-align: center;
+                min-height: auto !important;
+            }
+
+            h1 {
+                font-size: 2.5rem !important;
+                line-height: 1.2;
+            }
+
+            .hero p {
+                font-size: 1.1rem !important;
+                margin-bottom: 32px !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            section {
+                padding: 60px 0 !important;
+            }
+
+            h2 {
+                font-size: 2rem !important;
+            }
+
+            .hero-stats {
+                grid-template-columns: 1fr !important;
+                gap: 20px !important;
+                max-width: 100%;
+            }
+
+            .btn {
+                width: 100%;
+                margin-bottom: 12px;
+                justify-content: center;
+                padding: 16px 20px !important;
+            }
+
+            .container {
+                padding: 0 24px;
+            }
+
+            /* Fix for any other grids */
+            div[style*="display: grid"] {
+                grid-template-columns: 1fr !important;
+                gap: 20px !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2rem !important;
+            }
+
+            .header-logo img {
+                width: 100px;
+                height: auto;
+            }
+
+            .header-actions .btn {
+                padding: 8px 16px !important;
+                font-size: 0.8rem !important;
+                width: auto !important;
+                margin-bottom: 0;
+            }
+        }
+    </style>
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="/css/style.css?v=7.1">
+    <link rel="stylesheet" href="/css/fontawesome.min.css?v=7.1" media="print" onload="this.media='all'">
+
+    <!-- Font Preloads -->
+    <link rel="preload" href="/fonts/poppins-400.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/poppins-600.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/poppins-700.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="canonical" href="https://esular.com/tavuk-ciftligi-meteoroloji-istasyonu" />
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://esular.com/tavuk-ciftligi-meteoroloji-istasyonu" />
+    <meta property="og:title" content="Kümes Ortam İzleme Sistemi - Sıcaklık, Nem ve CO2 Takibi | Esular">
+    <meta property="og:description"
+        content="Kümes içi sıcaklık, nem, CO2 ve amonyak seviyelerini 7/24 izleyin. Hastalık riskini minimize edin.">
+    <meta property="og:image" content="https://esular.com/uploads/blog/esular-environment-monitoring.png">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Tavuk Çiftliği İzleme Sistemi | Esular">
+    <meta name="twitter:description" content="Akıllı kümes sensörleri ile hastalık erken uyarı sistemi.">
+    <meta name="twitter:image" content="https://esular.com/uploads/blog/esular-poultry-monitoring.png">
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "name": "Profesyonel İklim İstasyonu Çözümü",
+        "description": "LoRaWAN kablosuz sensörlerle çiftlik dış ortam izleme ve meteoroloji istasyonu",
+        "category": "Hayvancılık İzleme Sistemleri",
+        "provider": {
+            "@type": "Organization",
+            "name": "Esular",
+            "url": "https://esular.com"
+        }
+    }
+    </script>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="container">
+            <div class="header-container">
+                <a href="AnaSayfa.html" class="header-logo">
+                    <img src="https://esular.com/images/logo.png" alt="Esular Logo" width="120" height="44"
+                        loading="eager">
+                </a>
+                <nav class="header-nav" id="header-nav">
+                    <a href="AnaSayfa.html">Ana Sayfa</a>
+                    <a href="AnaSayfa.html#solutions" class="active">Çözümler</a>
+                    <a href="blog.html">Blog</a>
+                    <a href="AnaSayfa.html#contact">İletişim</a>
+                </nav>
+                <div class="header-actions">
+                    <a href="https://store.esular.com/" class="btn btn-outline" target="_blank">
+                        <i class="fas fa-shopping-cart"></i> Store
+                    </a>
+                    <button class="hamburger" id="hamburger-btn" aria-label="Menüyü Aç">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero"
+        style="min-height: 80vh; background: linear-gradient(135deg, #e0f2f1 0%, #b2dfdb 100%); display: flex; align-items: center; position: relative;">
+        <div class="container">
+            <div class="hero-container" style="text-align: center; color: white;">
+                <span class="section-tag"
+                    style="background: rgba(0, 121, 107, 0.1); color: #00796b; padding: 8px 24px; border-radius: 100px; display: inline-block; margin-bottom: 32px; font-size: 0.9375rem; font-weight: 600; border: 1px solid rgba(0, 121, 107, 0.1);">
+                    <i class="fas fa-sun"></i> Profesyonel İklim İstasyonu
+                </span>
+                <h1 style="color: #004d40; margin-bottom: 24px; line-height: 1.1;">Dış Ortamı İzleyin, <br>Kümesi
+                    Optimize Edin</h1>
+                <p
+                    style="font-size: 1.375rem; color: #455a64; max-width: 750px; margin: 0 auto 56px; line-height: 1.6;">
+                    Rüzgar hızı, yağış miktarı ve dış sıcaklık verileriyle havalandırma sistemini en verimli şekilde
+                    yönetin. Doğa olaylarını önceden haber alın.
+                </p>
+                <div class="hero-stats">
+                    <div class="stat-card">
+                        <div style="font-size: 3rem; margin-bottom: 16px;">🌬️</div>
+                        <h3 style="color: #004d40; font-size: 1.25rem; margin-bottom: 12px;">Rüzgar Takibi</h3>
+                        <p style="color: #455a64; font-size: 0.9375rem; line-height: 1.5;">Hız ve yön verileri</p>
+                    </div>
+                    <div class="stat-card">
+                        <div style="font-size: 3rem; margin-bottom: 16px;">🌧️</div>
+                        <h3 style="color: #004d40; font-size: 1.25rem; margin-bottom: 12px;">Yağış Ölçümü</h3>
+                        <p style="color: #455a64; font-size: 0.9375rem; line-height: 1.5;">Anlık ve toplam yağış</p>
+                    </div>
+                    <div class="stat-card">
+                        <div style="font-size: 3rem; margin-bottom: 16px;">🌡️</div>
+                        <h3 style="color: #004d40; font-size: 1.25rem; margin-bottom: 12px;">Dış Sıcaklık</h3>
+                        <p style="color: #455a64; font-size: 0.9375rem; line-height: 1.5;">Havalandırma optimizasyonu
+                        </p>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                    <a href="#products" class="btn btn-primary"
+                        style="padding: 18px 44px; font-size: 1.125rem; background: #00796b; border-color: #00796b;"><i
+                            class="fas fa-arrow-down"></i> Sensörleri İnceleyin</a>
+                    <a href="#contact" class="btn btn-white"
+                        style="padding: 18px 44px; font-size: 1.125rem; border: 2px solid #00796b; background: transparent; color: #00796b;"><i
+                            class="fas fa-file-alt"></i> Teklif Alın</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Parameters Section -->
+    <section style="padding: 100px 0; background: white;">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 60px;">
+                <h2 style="margin-bottom: 24px;">Hangi Parametreleri Neden İzlemelisiniz?</h2>
+                <p style="font-size: 1.125rem; color: var(--gray-600); max-width: 700px; margin: 0 auto;">Tavuk
+                    sağlığını ve verimini doğrudan etkileyen 4 kritik faktör.</p>
+            </div>
+            <div class="parameters-grid">
+                <div style="padding: 32px; background: #e0f2f1; border-radius: 16px; transition: transform 0.3s;">
+                    <div style="font-size: 2.5rem; margin-bottom: 16px;">🌬️</div>
+                    <h3 style="color: var(--gray-900); margin-bottom: 12px;">Rüzgar Hızı & Yönü</h3>
+                    <p style="color: var(--gray-600);">Fırtına ve sert rüzgarları takip ederek havalandırma kapaklarını
+                        ve perdeleri koruma altına alın.</p>
+                </div>
+                <div style="padding: 32px; background: #e1f5fe; border-radius: 16px; transition: transform 0.3s;">
+                    <div style="font-size: 2.5rem; margin-bottom: 16px;">🌧️</div>
+                    <h3 style="color: var(--gray-900); margin-bottom: 12px;">Yağış Miktarı</h3>
+                    <p style="color: var(--gray-600);">Anlık yağış şiddetini görerek drenaj sistemlerini ve kümes
+                        yalıtımını kontrol edin.</p>
+                </div>
+                <div style="padding: 32px; background: #fffde7; border-radius: 16px; transition: transform 0.3s;">
+                    <div style="font-size: 2.5rem; margin-bottom: 16px;">☀️</div>
+                    <h3 style="color: var(--gray-900); margin-bottom: 12px;">Güneş Radyasyonu</h3>
+                    <p style="color: var(--gray-600);">Isı enerjisi yükünü hesaplayarak soğutma pedlerinin çalışma
+                        zamanını optimize edin.</p>
+                </div>
+                <div style="padding: 32px; background: #f3e5f5; border-radius: 16px; transition: transform 0.3s;">
+                    <div style="font-size: 2.5rem; margin-bottom: 16px;">🌡️</div>
+                    <h3 style="color: var(--gray-900); margin-bottom: 12px;">Dış Hava Koşulları</h3>
+                    <p style="color: var(--gray-600);">Dış sıcaklık ve nem verisiyle kümes içi havalandırma stratejinizi
+                        otomatik güncelleyin.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Expert Content: External Weather Impact -->
+    <section style="padding: 100px 0; background: #e3f2fd; border-top: 1px solid #bbdefb;">
+        <div class="container">
+            <div
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 60px; align-items: center;">
+                <div>
+                    <h2 style="font-size: 2.25rem; margin-bottom: 32px; color: #0d47a1;">Dış Ortam Koşullarının Kümes
+                        İçi Mortaliteye Etkisi</h2>
+                    <p style="color: var(--gray-600); line-height: 1.8; margin-bottom: 24px;">
+                        Kümes içi iklim, dış dünyadan bağımsız değildir.
+                        <strong>Profesyonel meteoroloji istasyonumuz</strong>, dış ortamdaki ani sıcaklık
+                        dalgalanmalarını, rüzgar hızını ve yağış miktarını ölçerek havalandırma sistemine "erken uyarı"
+                        verisi sağlar.
+                        Rüzgarın yönü ve şiddeti, kümes içindeki statik basıncı doğrudan etkiler; bu veri olmadan
+                        yapılan havalandırma, enerji israfına ve hava akımı (draft) kaynaklı hastalıklara yol açar.
+                    </p>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 16px; display: flex; gap: 12px; color: var(--gray-700);">
+                            <i class="fas fa-check-circle" style="color: #1976d2; margin-top: 5px;"></i>
+                            <span><strong>Rüzgar Giriş Yönetimi:</strong> Dışarıdaki rüzgar hızı arttığında, sensör
+                                verisiyle perdeleri orantılı kapatarak kümes içindeki soğuk hava akımlarını
+                                engelleyin.</span>
+                        </li>
+                        <li style="margin-bottom: 16px; display: flex; gap: 12px; color: var(--gray-700);">
+                            <i class="fas fa-check-circle" style="color: #1976d2; margin-top: 5px;"></i>
+                            <span><strong>Isı Dengeleme:</strong> Dış sıcaklık düştüğünde, ısıtıcıları fan hızından
+                                bağımsız olarak optimize ederek yakıt tasarrufu sağlayın.</span>
+                        </li>
+                        <li style="margin-bottom: 16px; display: flex; gap: 12px; color: var(--gray-700);">
+                            <i class="fas fa-check-circle" style="color: #1976d2; margin-top: 5px;"></i>
+                            <span><span><strong>Yağış ve Nem Kontrolü:</strong></span> Ani yağışlarda nem alma
+                                stratejilerine geçerek altlığın (litter) ıslanmasını ve amonyak çıkışını önleyin.</span>
+                        </li>
+                    </ul>
+                </div>
+                <div
+                    style="background: white; padding: 40px; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.06); border-left: 8px solid #1976d2;">
+                    <h3 style="margin-bottom: 24px;">Biyogüvenlik İpucu</h3>
+                    <p style="color: var(--gray-600); line-height: 1.7; margin-bottom: 20px;">
+                        Vahşi kuşların ve zararlıların göç yolları ile ani hava değişimleri arasında korelasyon vardır.
+                        Meteorolojik verileri izleyerek biyogüvenlik önlemlerinizi "dinamik" hale getirebilir, riskli
+                        dönemlerde ekstra dikkat sağlayabilirsiniz.
+                    </p>
+                    <div
+                        style="background: #e1f5fe; padding: 20px; border-radius: 12px; font-size: 0.9rem; color: #01579b;">
+                        <i class="fas fa-info-circle"></i> Hava durumunun kümes yönetimine etkisi hakkında <a
+                            href="https://esular.com/blog/tarimsal-meteoroloji-istasyonlari-akilli-iklim-sensor-cozumleri"
+                            target="_blank" style="color: #1976d2; font-weight: 600;">Esular Meteoroloji
+                            Analizi</a>'ni inceleyin.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Showcase -->
+    <section id="products" style="padding: 100px 0; background: var(--gray-100);">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 60px;">
+                <span
+                    style="background: rgba(242, 71, 38, 0.1); color: var(--esular-orange); padding: 8px 20px; border-radius: 100px; display: inline-block; margin-bottom: 16px; font-weight: 600;">🚀
+                    Teknolojimiz</span>
+                <h2 style="margin-bottom: 24px;">Dış Ortam ve Meteoroloji Sensörleri</h2>
+                <p style="font-size: 1.125rem; color: var(--gray-600); max-width: 800px; margin: 0 auto;">Zorlu dış
+                    ortam
+                    şartlarına dayanıklı, kablosuz ve yüksek hassasiyetli meteoroloji ekipmanları.</p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px;">
+
+                <!-- Product 1: İklim İstasyonu -->
+                <div
+                    style="background: white; border-radius: 20px; padding: 40px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: all 0.3s; position: relative; overflow: hidden; border: 3px solid #00796b;">
+                    <span
+                        style="position: absolute; top: 16px; right: 16px; background: #00796b; color: white; padding: 6px 12px; border-radius: 100px; font-size: 0.75rem; font-weight: 600;">PROFESYONEL</span>
+                    <div style="font-size: 3.5rem; margin-bottom: 20px;">🌤️</div>
+                    <h3 style="font-size: 1.5rem; margin-bottom: 16px; color: var(--gray-900);">LoRaWAN İklim İstasyonu
+                    </h3>
+                    <p style="color: var(--gray-600); margin-bottom: 24px; line-height: 1.6;">Rüzgar hızı, yönü, yağış,
+                        sıcaklık, nem ve basınç verilerini tek bir istasyondan kablosuz olarak iletir.</p>
+                    <div style="margin-bottom: 24px;">
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+                            <span style="color: #27ae60; font-size: 1.25rem;">✓</span>
+                            <span style="color: var(--gray-700);">Tümleşik Sensör Dizisi</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+                            <span style="color: #27ae60; font-size: 1.25rem;">✓</span>
+                            <span style="color: var(--gray-700);">15km Haberleşme Mesafesi</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span style="color: #27ae60; font-size: 1.25rem;">✓</span>
+                            <span style="color: var(--gray-700);">Güneş Paneli Desteği</span>
+                        </div>
+                    </div>
+                    <a href="https://esular.com/urunler/meteoroloji-istasyonu" target="_blank" class="btn btn-primary"
+                        style="width: 100%; justify-content: center; padding: 14px; background: linear-gradient(135deg, #00796b 0%, #004d40 100%); border-radius: 100px; color: white; font-weight: 600;">Ürünü
+                        İncele</a>
+                </div>
+
+                <!-- Product 2: Yağış Miktarı Sensörü -->
+                <div
+                    style="background: white; border-radius: 20px; padding: 40px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: all 0.3s; position: relative; overflow: hidden;">
+                    <div style="font-size: 3.5rem; margin-bottom: 20px;">🌧️</div>
+                    <h3 style="font-size: 1.5rem; margin-bottom: 16px; color: var(--gray-900);">Yağış Miktarı Sensörü
+                    </h3>
+                    <p style="color: var(--gray-600); margin-bottom: 24px; line-height: 1.6;">Her 0.2mm yağışta sinyal
+                        göndererek toplam yağış miktarını ve şiddetini takip eder.</p>
+                    <div style="margin-bottom: 24px;">
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+                            <span style="color: #27ae60; font-size: 1.25rem;">✓</span>
+                            <span style="color: var(--gray-700);">Kepçeli Tip Ölçüm</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+                            <span style="color: #27ae60; font-size: 1.25rem;">✓</span>
+                            <span style="color: var(--gray-700);">Kendi Kendine Boşalan Sistem</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span style="color: #27ae60; font-size: 1.25rem;">✓</span>
+                            <span style="color: var(--gray-700);">Düşük Güç Tüketimi</span>
+                        </div>
+                    </div>
+                    <a href="https://esular.com/urunler/yagis-miktari-sensoru" target="_blank" class="btn btn-outline"
+                        style="width: 100%; justify-content: center; padding: 14px; color: #00796b; border-color: #00796b; border-radius: 100px;">Ürünü
+                        İncele</a>
+                </div>
+
+                <!-- Product 3: Rüzgar Hızı Sensörü -->
+                <div
+                    style="background: white; border-radius: 20px; padding: 40px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: all 0.3s; position: relative; overflow: hidden;">
+                    <div style="font-size: 3.5rem; margin-bottom: 20px;">🍃</div>
+                    <h3 style="font-size: 1.5rem; margin-bottom: 16px; color: var(--gray-900);">Rüzgar Sensörü Seti</h3>
+                    <p style="color: var(--gray-600); margin-bottom: 24px; line-height: 1.6;">Hız ve yön verilerini
+                        yüksek hassasiyetle ölçer, fırtına uyarıları için kritik veri sağlar.</p>
+                    <div style="margin-bottom: 24px;">
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+                            <span style="color: #27ae60; font-size: 1.25rem;">✓</span>
+                            <span style="color: var(--gray-700);">Hız & Yön Ölçümü</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+                            <span style="color: #27ae60; font-size: 1.25rem;">✓</span>
+                            <span style="color: var(--gray-700);">Paslanmaz Malzeme</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span style="color: #27ae60; font-size: 1.25rem;">✓</span>
+                            <span style="color: var(--gray-700);">Dijital Çıkış</span>
+                        </div>
+                    </div>
+                    <a href="#contact" class="btn btn-outline"
+                        style="width: 100%; justify-content: center; padding: 14px; color: #00796b; border-color: #00796b; border-radius: 100px;">Detaylı
+                        Bilgi</a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section style="padding: 100px 0; background: white;">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 60px;">
+                <h2 style="margin-bottom: 24px;">Sensörler Nasıl Konumlandırılır?</h2>
+                <p style="font-size: 1.125rem; color: var(--gray-600); max-width: 700px; margin: 0 auto;">Doğru ölçüm
+                    için sensör yerleşimi kritiktir.</p>
+            </div>
+            <div
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; max-width: 1000px; margin: 0 auto;">
+                <div style="text-align: center;">
+                    <div
+                        style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--esular-orange), var(--esular-orange-dark)); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; color: white; font-size: 2rem; font-weight: 700;">
+                        1</div>
+                    <h3 style="margin-bottom: 16px; font-size: 1.375rem;">Stratejik Noktalar</h3>
+                    <p style="color: var(--gray-600); line-height: 1.6;">Sensörler tavukların seviyesinde (zemin
+                        hizası), hava girişleri ve fanların etkisinden uzak noktalara yerleştirilir.</p>
+                </div>
+                <div style="text-align: center;">
+                    <div
+                        style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--esular-orange), var(--esular-orange-dark)); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; color: white; font-size: 2rem; font-weight: 700;">
+                        2</div>
+                    <h3 style="margin-bottom: 16px; font-size: 1.375rem;">Limitleri Belirleyin</h3>
+                    <p style="color: var(--gray-600); line-height: 1.6;">Her evre için (civciv, piliç, yumurta) ideal
+                        sıcaklık ve CO2 alt/üst limitlerinizi sisteme girin.</p>
+                </div>
+                <div style="text-align: center;">
+                    <div
+                        style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--esular-orange), var(--esular-orange-dark)); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; color: white; font-size: 2rem; font-weight: 700;">
+                        3</div>
+                    <h3 style="margin-bottom: 16px; font-size: 1.375rem;">Oto. Uyarı Sistemi</h3>
+                    <p style="color: var(--gray-600); line-height: 1.6;">Limitler aşıldığında anında SMS veya telefon
+                        araması alın. Gece rahat uyuyun.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits -->
+    <section style="padding: 100px 0; background: linear-gradient(135deg, #00796b 0%, #004d40 100%); color: white;">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 60px;">
+                <h2 style="color: white; margin-bottom: 24px;">Neden Ortam İzleme Sistemi?</h2>
+                <p style="font-size: 1.125rem; max-width: 700px; margin: 0 auto; opacity: 0.95;">Kümes iklimini kontrol
+                    altına almanın kanıtlanmış faydaları</p>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px;">
+                <div
+                    style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 32px; border-radius: 16px;">
+                    <div style="font-size: 2.5rem; margin-bottom: 16px;">🏢</div>
+                    <h3 style="margin-bottom: 12px; font-size: 1.25rem;">Varlıklarınızı Koruyun</h3>
+                    <p style="opacity: 0.9;">Aşırı rüzgar ve fırtına uyarıları ile kümes yapılarını ve ekipmanları
+                        zamanında güvenceye alın.</p>
+                </div>
+                <div
+                    style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 32px; border-radius: 16px;">
+                    <div style="font-size: 2.5rem; margin-bottom: 16px;">🛡️</div>
+                    <h3 style="margin-bottom: 12px; font-size: 1.25rem;">Biyogüvenlik Desteği</h3>
+                    <p style="opacity: 0.9;">Hava akımı ve nem verileriyle kümes çevresindeki biyogüvenlik risklerini
+                        daha iyi yönetin.</p>
+                </div>
+                <div
+                    style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 32px; border-radius: 16px;">
+                    <div style="font-size: 2.5rem; margin-bottom: 16px;">⚡</div>
+                    <h3 style="margin-bottom: 12px; font-size: 1.25rem;">Enerji Tasarrufu</h3>
+                    <p style="opacity: 0.9;">Dış hava serinken havalandırma yaparak soğutma maliyetlerini %20'ye kadar
+                        düşürün.</p>
+                </div>
+                <div
+                    style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 32px; border-radius: 16px;">
+                    <div style="font-size: 2.5rem; margin-bottom: 16px;">🌬️</div>
+                    <h3 style="margin-bottom: 12px; font-size: 1.25rem;">Havalandırma Optimizasyonu</h3>
+                    <p style="opacity: 0.9;">Fanları sadece gerektiğinde çalıştırarak enerji maliyetlerinizi düşürün.
+                    </p>
+                </div>
+                <div
+                    style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 32px; border-radius: 16px;">
+                    <div style="font-size: 2.5rem; margin-bottom: 16px;">🔋</div>
+                    <h3 style="margin-bottom: 12px; font-size: 1.25rem;">Kesintisiz İzleme</h3>
+                    <p style="opacity: 0.9;">Elektrik kesilse bile pilli sensörler çalışmaya ve veri göndermeye devam
+                        eder.</p>
+                </div>
+                <div
+                    style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 32px; border-radius: 16px;">
+                    <div style="font-size: 2.5rem; margin-bottom: 16px;">📱</div>
+                    <h3 style="margin-bottom: 12px; font-size: 1.25rem;">Uzaktan Yönetim</h3>
+                    <p style="opacity: 0.9;">Çiftlikten uzakta olsanız bile iklim koşullarını cebinizden takip edin.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technical Specs & FAQ -->
+    <section style="padding: 100px 0; background: white;">
+        <div class="container">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 60px;">
+
+                <!-- Technical Specs -->
+                <div>
+                    <h2 style="margin-bottom: 30px;">Teknik Özellikler</h2>
+                    <div style="background: var(--gray-100); border-radius: 16px; padding: 30px;">
+                        <div
+                            style="display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid #e0e0e0;">
+                            <span style="font-weight: 600;">Sıcaklık Ölçüm Aralığı</span>
+                            <span>-40°C ile +85°C</span>
+                        </div>
+                        <div
+                            style="display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid #e0e0e0;">
+                            <span style="font-weight: 600;">CO2 Ölçüm Aralığı</span>
+                            <span>0 ile 5000 ppm (NDIR)</span>
+                        </div>
+                        <div
+                            style="display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid #e0e0e0;">
+                            <span style="font-weight: 600;">Nem Ölçüm Aralığı</span>
+                            <span>%0 ile %100 RH</span>
+                        </div>
+                        <div
+                            style="display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid #e0e0e0;">
+                            <span style="font-weight: 600;">İletişim Mesafesi</span>
+                            <span>15 km'ye kadar (LoRaWAN)</span>
+                        </div>
+                        <div
+                            style="display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid #e0e0e0;">
+                            <span style="font-weight: 600;">Pil Ömrü</span>
+                            <span>10 Yıla Kadar (Değiştirilebilir)</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 15px 0;">
+                            <span style="font-weight: 600;">Koruma Sınıfı</span>
+                            <span>IP68 (Su ve Toza Dayanıklı)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ -->
+                <div>
+                    <h2 style="margin-bottom: 30px;">Sıkça Sorulan Sorular</h2>
+                    <div style="display: flex; flex-direction: column; gap: 20px;">
+                        <details
+                            style="background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; padding: 20px; cursor: pointer;">
+                            <summary
+                                style="font-weight: 600; font-size: 1.125rem; list-style: none; display: flex; justify-content: space-between; align-items: center;">
+                                Elektrik kesilirse sistem çalışır mı?
+                                <span style="color: var(--esular-orange);">+</span>
+                            </summary>
+                            <p style="margin-top: 15px; color: var(--gray-600); line-height: 1.6;">Evet, sensörlerimiz
+                                pilli olduğu için elektrik kesintilerinden etkilenmez. Gateway (Merkez İstasyon) için
+                                ise UPS güç kaynağı desteğimiz mevcuttur.</p>
+                        </details>
+
+                        <details
+                            style="background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; padding: 20px; cursor: pointer;">
+                            <summary
+                                style="font-weight: 600; font-size: 1.125rem; list-style: none; display: flex; justify-content: space-between; align-items: center;">
+                                İnternet bağlantısı şart mı?
+                                <span style="color: var(--esular-orange);">+</span>
+                            </summary>
+                            <p style="margin-top: 15px; color: var(--gray-600); line-height: 1.6;">Sensörler için
+                                gerekmez (LoRa kullanır). Merkez istasyon verileri buluta aktarmak için GSM (Sim Kart)
+                                veya Wi-Fi kullanır. Sim kartlı modelimiz mevcuttur.</p>
+                        </details>
+
+                        <details
+                            style="background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; padding: 20px; cursor: pointer;">
+                            <summary
+                                style="font-weight: 600; font-size: 1.125rem; list-style: none; display: flex; justify-content: space-between; align-items: center;">
+                                Kaç tane sensör almalıyım?
+                                <span style="color: var(--esular-orange);">+</span>
+                            </summary>
+                            <p style="margin-top: 15px; color: var(--gray-600); line-height: 1.6;">Kümesin boyutuna göre
+                                değişir. Genellikle her 800-1000 m² alan için 1 adet CO2-Nem-Sıcaklık ve 2 adet
+                                Nem-Sıcaklık sensörü öneriyoruz.</p>
+                        </details>
+
+                        <details
+                            style="background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; padding: 20px; cursor: pointer;">
+                            <summary
+                                style="font-weight: 600; font-size: 1.125rem; list-style: none; display: flex; justify-content: space-between; align-items: center;">
+                                Kurulumu ben yapabilir miyim?
+                                <span style="color: var(--esular-orange);">+</span>
+                            </summary>
+                            <p style="margin-top: 15px; color: var(--gray-600); line-height: 1.6;">Kesinlikle!
+                                Tak-çalıştır yapısı sayesinde sensörleri kümese asıp QR kodu okutarak 5 dakikada devreye
+                                alabilirsiniz.</p>
+                        </details>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="contact" style="padding: 100px 0; background: var(--gray-900); color: white; text-align: center;">
+        <div class="container">
+            <h2 style="color: white; margin-bottom: 24px; font-size: 2.5rem;">Tavuk Çiftliğinizi Akıllı Hale Getirmeye
+                Hazır mısınız?</h2>
+            <p style="font-size: 1.25rem; opacity: 0.9; max-width: 700px; margin: 0 auto 40px;">Ücretsiz keşif görüşmesi
+                için iletişime geçin. Size özel çözüm önerimizi paylaşalım.</p>
+            <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                <a href="/iletisim" class="btn btn-primary" style="padding: 18px 40px; font-size: 1.125rem;"><i
+                        class="fas fa-phone"></i> Hemen İletişime Geç</a>
+                <a href="mailto:info@esular.com" class="btn btn-white"
+                    style="padding: 18px 40px; font-size: 1.125rem;"><i class="fas fa-envelope"></i> E-posta
+                    Gönderin</a>
+            </div>
+            <p style="margin-top: 32px; font-size: 0.9375rem; opacity: 0.7;">🚀 2000+ çiftlik Esular teknolojisini
+                kullanıyor</p>
+        </div>
+    </section>
+
+
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <img src="https://esular.com/images/logo.png" alt="Esular" width="120" height="40" loading="lazy"
+                        style="margin-bottom: 16px;">
+                    <p style="color: rgba(255,255,255,0.7);">Akıllı tarım teknolojileri ile tarımınızı geleceğe
+                        taşıyoruz.</p>
+                    <div class="footer-social" style="display: flex; gap: 12px; margin-top: 20px;">
+                        <a href="https://www.facebook.com/esularr" target="_blank"
+                            style="width: 40px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white;">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://www.instagram.com/esular1/" target="_blank"
+                            style="width: 40px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white;">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/company/esular" target="_blank"
+                            style="width: 40px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white;">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h5 style="color: white; margin-bottom: 16px;">Ürünler</h5>
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <a href="/urunler/toprak-nem-sensoru" style="color: rgba(255,255,255,0.7);">Toprak Nem
+                            Sensörü</a>
+                        <a href="/urunler/kablosuz-sulama" style="color: rgba(255,255,255,0.7);">Kablosuz Sulama</a>
+                        <a href="/sensorler" style="color: rgba(255,255,255,0.7);">Tüm Sensörler</a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h5 style="color: white; margin-bottom: 16px;">Kurumsal</h5>
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <a href="/hakkimizda" style="color: rgba(255,255,255,0.7);">Hakkımızda</a>
+                        <a href="/teknolojimiz" style="color: rgba(255,255,255,0.7);">Teknolojimiz</a>
+                        <a href="/iletisim" style="color: rgba(255,255,255,0.7);">İletişim</a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h5 style="color: white; margin-bottom: 16px;">İletişim</h5>
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <a href="tel:08503034991" style="color: rgba(255,255,255,0.7);">0850 303 49 91</a>
+                        <a href="mailto:info@esular.com" style="color: rgba(255,255,255,0.7);">info@esular.com</a>
+                    </div>
+                </div>
+            </div>
+            <div
+                style="border-top: 1px solid rgba(255,255,255,0.1); margin-top: 40px; padding-top: 24px; text-align: center; color: rgba(255,255,255,0.6);">
+                <p>&copy; 2025 Esular. Tüm hakları saklıdır.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Float Button -->
+    <div class="whatsapp-float" style="position: fixed; bottom: 30px; right: 30px; z-index: 999;">
+        <a href="https://wa.me/905412474505" target="_blank"
+            style="display: flex; align-items: center; justify-content: center; width: 60px; height: 60px; background: #25D366; color: white; border-radius: 50%; font-size: 32px; box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+    </div>
+
+
+    <script>
+        // Hamburger Menu Toggle
+        const hamburgerBtn = document.getElementById('hamburger-btn');
+        const headerNav = document.getElementById('header-nav');
+
+        hamburgerBtn.addEventListener('click', () => {
+            headerNav.classList.toggle('active');
+            const icon = hamburgerBtn.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+
+        // Close menu when clicking links
+        document.querySelectorAll('.header-nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                headerNav.classList.remove('active');
+                const icon = hamburgerBtn.querySelector('i');
+                icon.classList.add('fa-bars');
+                icon.classList.remove('fa-times');
+            });
+        });
+    </script>
+</body>
+
+</html>
